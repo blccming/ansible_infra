@@ -1,0 +1,8 @@
+# docker
+
+services:
+  - caddy
+  - cloudflare-ddns
+  - homarr
+  - homeassistant
+  - watchtower

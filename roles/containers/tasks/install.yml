@@ -1,0 +1,53 @@
+# code: language=ansible
+
+- name: Make sure that the docker folders exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    state: directory
+  loop:
+    - "{{ docker_compose_dir }}"
+    - "{{ docker_dir }}"
+
+- name: Copy the compose file
+  template: 
+    src: templates/compose.yaml
+    dest: "{{ docker_compose_dir }}/compose.yaml"
+
+- name: Create Caddy config directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/caddy"
+    state: directory
+    mode: '0755'
+  when: "'caddy' in services"
+
+- name: Copy Caddy Dockerfile
+  template:
+    src: templates/caddy/Dockerfile
+    dest: "{{ docker_dir }}/caddy/Dockerfile"
+  when: "'caddy' in services"
+
+- name: Copy Caddyfile
+  template:
+    src: templates/caddy/Caddyfile
+    dest: "{{ docker_dir }}/caddy/Caddyfile"
+  when: "'caddy' in services"
+
+- name: Create cloudflare-ddns config directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/cloudflare-ddns"
+    state: directory
+    mode: '0755'
+  when: "'cloudflare-ddns' in services"
+
+- name: Copy cloudflare-ddns config.json
+  template:
+    src: templates/cloudflare-ddns/config.json
+    dest: "{{ docker_dir }}/cloudflare-ddns/config.json"
+  when: "'cloudflare-ddns' in services"
+
+- name: docker compose up
+  community.docker.docker_compose_v2:
+    project_src: "{{ docker_compose_dir }}"
+    build: always

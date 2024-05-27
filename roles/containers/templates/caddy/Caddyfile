@@ -1,0 +1,215 @@
+{
+	email primissco@tuta.io
+	acme_dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	order wake_on_lan before respond
+}
+
+search.zykla.me {
+	reverse_proxy 192.168.178.24:5010
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:5010 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+cloud.zykla.me {
+	reverse_proxy 192.168.178.24:8080
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:8080 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+memos.zykla.me {
+	reverse_proxy 192.168.178.24:5200
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:5200 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+crg.zykla.me {
+	reverse_proxy 192.168.178.24:5100
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:5100 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+# local
+
+dd.lab.zykla.me {
+	reverse_proxy 192.168.178.24:3001 # TEMP
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:3001 {
+				# TEMP
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+fin.lab.zykla.me {
+	reverse_proxy 192.168.178.24:8096
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:8096 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+sync.lab.zykla.me {
+	reverse_proxy 192.168.178.24:8384
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:8384 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+trans.lab.zykla.me {
+	reverse_proxy 192.168.178.24:9091
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:9091 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+srr.lab.zykla.me {
+	reverse_proxy 192.168.178.24:9130
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:9130 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+rrr.lab.zykla.me {
+	reverse_proxy 192.168.178.24:9140
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:9140 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+prr.lab.zykla.me {
+	reverse_proxy 192.168.178.24:9696
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:9696 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+piped.lab.zykla.me, pipedapi.lab.zykla.me, pipedproxy.lab.zykla.me {
+	uri replace "&ump=1" ""
+	reverse_proxy 192.168.178.24:8081
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:8081 {
+				lb_try_duration 120s
+			}
+		}
+	}
+}
+
+hrr.lab.zykla.me {
+	reverse_proxy 192.168.178.20:7575
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+}
+
+has.lab.zykla.me {
+	reverse_proxy 192.168.178.20:8123
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+}
