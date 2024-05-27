@@ -19,8 +19,11 @@ ssh phlourish@<SERVER-IP>
 sh run.sh
 ```
 
-## Edit secrets.yml in group_vars/all/secrets.yml
+## Edit secrets
 
+1. Create .vault_pass and paste the password into it
+
+2. Use ansible-vault to edit ./group_vars/all/secrets.yml
 ```bash
 ansible-vault edit --vault-password-file=.vault_pass ./group_vars/all/secrets.yml
 ```
