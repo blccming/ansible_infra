@@ -1,0 +1,22 @@
+---
+- name: Create cloudflare-ddns compose directory
+  ansible.builtin.file:
+    path: "{{ docker_compose_dir }}/cloudflare-ddns"
+    state: directory
+    mode: "0755"
+
+- name: Copy cloudflare-ddns compose file
+  template:
+    src: ../templates/cloudflare-ddns/compose.yml
+    dest: "{{ docker_compose_dir }}/cloudflare-ddns/compose.yml"
+
+- name: Create cloudflare-ddns config directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/cloudflare-ddns"
+    state: directory
+    mode: "0755"
+
+- name: Copy cloudflare-ddns config.json
+  template:
+    src: ../templates/cloudflare-ddns/config.json
+    dest: "{{ docker_dir }}/cloudflare-ddns/config.json"

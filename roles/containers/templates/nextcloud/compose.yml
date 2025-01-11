@@ -1,0 +1,42 @@
+---
+services:
+  redis:
+    image: redis
+    restart: always
+    command: redis-server --requirepass "{{ nextcloud_redis_password }}"
+    ports:
+      - 6379:6379/tcp
+    network_mode: bridge
+  db:
+    image: mariadb:10.6
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD="{{ nextcloud_mysql_root_password }}"
+      - MYSQL_PASSWORD="{{ nextcloud_mysql_password }}"
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+  app:
+    image: nextcloud
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - db
+      - redis
+    volumes:
+      - "{{ docker_dir }}/nextcloud:/var/www/html"
+      - "{{ docker_dir }}/nextcloud/php-local.ini:/usr/local/etc/php/php-local.ini"
+    environment:
+      - MYSQL_PASSWORD="{{ nextcloud_mysql_password }}"
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud."{{ domain_public }}"
+      - OVERWRITEPROTOCOL=https
+      - OVERWRITEHOST=cloud."{{ domain_public }}"
+      - OVERWRITECLIURL=https://cloud."{{ domain_public }}"
+      - TRUSTED_PROXIES=cloud."{{ domain_public }}"
+      - REDIS_HOST_PASSWORD="{{ nextcloud_redis_password }}"

@@ -1,0 +1,77 @@
+---
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=mullvad
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER="{{ mullvad_user }}""
+      - SERVER_COUNTRIES=Germany,France,Austria
+      - OWNED_ONLY=yes
+    ports:
+      - 9091:9091 # transmission
+      - 9696:9696 # prowlarr
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    network_mode: gluetun
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - USER=bloom
+      - PASS={{ transmission_password }}
+    volumes:
+      - "{{ docker_dir }}/transmission/data:/config"
+      - /path/to/downloads:/downloads # TODO
+      - /path/to/watch/folder:/watch # TODO
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    network_mode: gluetun
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - "{{ docker_dir }}/prowlarr/data:/config"
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - "{{ docker_dir }}/sonarr/data:/config"
+      - /path/to/tvseries:/tv # TODO
+      - /path/to/downloadclient-downloads:/downloads # TODO
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - "{{ docker_dir }}/radarr/data:/config"
+      - /path/to/movies:/movies # TODO
+      - /path/to/download-client-downloads:/downloads # TODO
+    ports:
+      - 7878:7878
+    restart: unless-stopped

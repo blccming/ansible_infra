@@ -1,40 +1,32 @@
 {
-    "cloudflare": [
-      {
-        "authentication": {
-          "api_token": "{{ cloudflare_auth_token_ddns }}"
+  "cloudflare": [
+    {
+      "authentication": {
+        "api_token": "{{ cloudflare_auth_token_ddns }}"
+      },
+      "zone_id": "{{ cloudflare_zone_id }}",
+      "subdomains": [
+        {
+          "name": "",
+          "proxied": true
         },
-        "zone_id": "{{ cloudflare_zone_id }}",
-        "subdomains": [
-          {
-            "name": "",
-            "proxied": true
-          },
-          {
-            "name": "mc",
-            "proxied": false
-          },
-          {
-            "name": "cloud",
-            "proxied": true
-          },
-          {
-            "name": "search",
-            "proxied": true
-          },
-          {
-            "name": "crg",
-            "proxied": true
-          },
-          {
-            "name": "memos",
-            "proxied": true
-          }
-        ]
-      }
-    ],
-    "a": true,
-    "aaaa": true,
-    "purgeUnknownRecords": false,
-    "ttl": 300
+        {
+          "name": "mc",
+          "proxied": false
+        },
+        {
+          "name": "cloud",
+          "proxied": true
+        },
+        {
+          "name": "crg",
+          "proxied": true
+        }
+      ]
+    }
+  ],
+  "a": true,
+  "aaaa": true,
+  "purgeUnknownRecords": false,
+  "ttl": 300
 }

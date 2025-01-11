@@ -1,17 +1,32 @@
-# code: language=ansible
-
-- hosts: raspi_rosa
+---
+- hosts: raspi_clara
   become: true
   roles:
-  - role: system
-    tags:
-      - system
-  - role: geerlingguy.security
-    tags:
-      - security
-  - role: geerlingguy.docker
-    tags:
-      - docker
-  - role: containers
-    tags: 
-      - containers
+    - role: system
+      tags:
+        - system
+    - role: geerlingguy.security
+      tags:
+        - security
+    - role: geerlingguy.docker
+      tags:
+        - docker
+    - role: containers
+      tags:
+        - containers
+
+- hosts: main_rosa
+  become: true
+  roles:
+    - role: system
+      tags:
+        - system
+    - role: geerlingguy.security
+      tags:
+        - security
+    - role: geerlingguy.docker
+      tags:
+        - docker
+    - role: containers
+      tags:
+        - containers

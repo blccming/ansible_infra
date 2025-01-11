@@ -1,0 +1,17 @@
+---
+- name: Create dashdot compose directory
+  ansible.builtin.file:
+    path: "{{ docker_compose_dir }}/dashdot"
+    state: directory
+    mode: "0755"
+
+- name: Copy dashdot compose file
+  template:
+    src: ../templates/dashdot/compose.yml
+    dest: "{{ docker_compose_dir }}/dashdot/compose.yml"
+
+- name: Create dashdot directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/dashdot"
+    state: directory
+    mode: "0755"

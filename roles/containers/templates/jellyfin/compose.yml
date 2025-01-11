@@ -1,0 +1,15 @@
+---
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    network_mode: "host"
+    group_add:
+      - "105"
+    volumes:
+      - "{{ docker_dir }}/jellyfin/config:/config"
+      - "{{ docker_dir }}/jellyfin/cache:/cache"
+      - /srv/mediapool:/media # TODO: change
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    restart: "unless-stopped"

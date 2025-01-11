@@ -1,0 +1,14 @@
+---
+services:
+  dashdot:
+    image: mauricenino/dashdot
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - "3001:3001"
+    volumes:
+      - "{{ docker_dir }}/dashdot:/mnt/host:ro"
+    environment:
+      DASHDOT_WIDGET_LIST: "os,cpu,ram,network"
+      DASHDOT_ENABLE_CPU_TEMPS: "true"
+      DASHDOT_SHOW_HOST: "true"

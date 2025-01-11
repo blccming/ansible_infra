@@ -1,0 +1,23 @@
+---
+- name: Create Jellyfin compose directory
+  ansible.builtin.file:
+    path: "{{ docker_compose_dir }}/jellyfin"
+    state: directory
+    mode: "0755"
+
+- name: Copy Jellyfin compose file
+  template:
+    src: ../templates/jellyfin/compose.yml
+    dest: "{{ docker_compose_dir }}/jellyfin/compose.yml"
+
+- name: Create Jellyfin config directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/jellyfin/config"
+    state: directory
+    mode: "0755"
+
+- name: Create Jellyfin cache directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/jellyfin/cache"
+    state: directory
+    mode: "0755"

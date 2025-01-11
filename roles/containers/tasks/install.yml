@@ -1,5 +1,4 @@
-# code: language=ansible
-
+---
 - name: Make sure that the docker folders exists
   ansible.builtin.file:
     path: "{{ item }}"
@@ -10,44 +9,59 @@
     - "{{ docker_compose_dir }}"
     - "{{ docker_dir }}"
 
-- name: Copy the compose file
-  template: 
-    src: templates/compose.yaml
-    dest: "{{ docker_compose_dir }}/compose.yaml"
-
-- name: Create Caddy config directory
-  ansible.builtin.file:
-    path: "{{ docker_dir }}/caddy"
-    state: directory
-    mode: '0755'
+- name: Install Caddy
+  include_tasks: services/caddy.yml
   when: "'caddy' in services"
 
-- name: Copy Caddy Dockerfile
-  template:
-    src: templates/caddy/Dockerfile
-    dest: "{{ docker_dir }}/caddy/Dockerfile"
-  when: "'caddy' in services"
-
-- name: Copy Caddyfile
-  template:
-    src: templates/caddy/Caddyfile
-    dest: "{{ docker_dir }}/caddy/Caddyfile"
-  when: "'caddy' in services"
-
-- name: Create cloudflare-ddns config directory
-  ansible.builtin.file:
-    path: "{{ docker_dir }}/cloudflare-ddns"
-    state: directory
-    mode: '0755'
+- name: Install cloudflare-ddns
+  include_taks: "services/cloudflare-ddns.yml"
   when: "'cloudflare-ddns' in services"
 
-- name: Copy cloudflare-ddns config.json
-  template:
-    src: templates/cloudflare-ddns/config.json
-    dest: "{{ docker_dir }}/cloudflare-ddns/config.json"
-  when: "'cloudflare-ddns' in services"
+- name: Install dashdot
+  include_taks: "services/dashdot.yml"
+  when: "'dashdot' in services"
 
-- name: docker compose up
+- name: Install Homarr
+  include_tasks: services/homarr.yml
+  when: "'homarr' in services"
+
+- name: Install Home Assistant
+  include_tasks: services/homeassistant.yml
+  when: "'homeassistant' in services"
+
+- name: Install Jellyfin
+  include_taks: "services/jellyfin.yml"
+  when: "'jellyfin' in services"
+
+- name: Install Nextcloud
+  include_taks: "services/nextcloud.yml"
+  when: "'nextcloud' in services"
+
+- name: Install Piped
+  include_tasks: "services/piped.yml"
+  when: "'piped' in services"
+
+- name: Install Syncthing
+  include_tasks: "services/syncthing.yml"
+  when: "'syncthing' in services"
+
+- name: Install Torrenting applications
+  include_tasks: "services/torrenting.yml"
+  when: "'torrenting' in services"
+
+- name: Install Watchtower
+  include_tasks: "services/watchtower.yml"
+  when: "'watchtower' in services"
+
+- name: Find all docker compose subdirectores
+  find:
+    paths: "{{ docker_compose_dir }}"
+    file_type: directory
+  register: subdirectories
+
+- name: docker compose up for every subdirectory
   community.docker.docker_compose_v2:
-    project_src: "{{ docker_compose_dir }}"
+    project_src: "{{ item.path }}"
     build: always
+  loop: "{{ subdirectories.files }}"
+  when: item.path is not none

@@ -1,0 +1,17 @@
+---
+nas_mount: /mnt/nas
+
+extra_packages:
+  - btop
+  - powertop
+
+services:
+  - cryptgeon
+  - dashdot
+  - jellyfin
+  - nextcloud
+  - piped
+  - samba
+  - syncthing
+  - torrenting
+  - watchtower

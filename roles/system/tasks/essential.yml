@@ -1,5 +1,5 @@
 ---
-- name: Update and upgrade packages 
+- name: Update and upgrade packages
   apt:
     update_cache: yes
     upgrade: yes
@@ -28,11 +28,11 @@
   debug:
     msg: "System Hostname: {{ ansible_facts['hostname'] }}"
 
-- name: Replace the hostname entry with our own
+- name: Replace the hostname entry with own
   ansible.builtin.lineinfile:
     path: /etc/hosts
     insertafter: ^127\.0\.0\.1 *localhost
     line: "127.0.0.1 {{ inventory_hostname }}"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"

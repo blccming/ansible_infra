@@ -6,10 +6,10 @@ This playbook is used to manage my personal infrastructure with IaC via Ansible.
 
 1. Create ssh key and copy the key to the server
 ```bash
-ssh-keygen -t ed25519 -C "phlourish"
-ssh-add ~/.ssh/phlourish
-ssh-copy-id -i ~/.ssh/phlourish phlourish@<SERVER-IP>
-ssh phlourish@<SERVER-IP>
+ssh-keygen -t ed25519 -C "bloom"
+ssh-add ~/.ssh/bloom
+ssh-copy-id -i ~/.ssh/bloom bloom@<SERVER-IP>
+ssh bloom@<SERVER-IP>
 ```
 
 2. Check inventory.ini for correct information about the server(s)
@@ -30,4 +30,3 @@ ansible-vault edit --vault-password-file=.vault_pass ./group_vars/all/secrets.ym
 
 ## Special thanks
 - [notthebee](https://github.com/notthebee) for his ansible [playbook](https://github.com/notthebee/infra) and [youtube series](https://yewtu.be/playlist?list=PLkxWXio1KmRoZd88WbrnSnQM5MJY5PjH2)
-

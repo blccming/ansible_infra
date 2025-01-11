@@ -1,0 +1,23 @@
+---
+services:
+  caddy:
+    build:
+      dockerfile: "{{ docker_dir }}/caddy/Dockerfile"
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+      - "9:9/udp"
+      - "7:7/udp"
+    volumes:
+      - "{{ docker_dir }}/caddy/Caddyfile:/etc/caddy/Caddyfile"
+      - "{{ docker_dir }}/caddy/site:/srv"
+      - "{{ docker_dir }}/caddy/caddy_data:/data"
+      - "{{ docker_dir }}/caddy/caddy_config:/config"
+      - "{{ docker_dir }}/caddy/certs/certificate.pem:/etc/ssl/certs/certificate.pem"
+      - "{{ docker_dir }}/caddy/private/key.pem:/etc/ssl/private/key.pem"
+    environment:
+      - ACME_AGREE=true
+      - CLOUDFLARE_AUTH_TOKEN={{ cloudflare_auth_token_tls }}
+    network_mode: host
