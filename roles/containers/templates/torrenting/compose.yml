@@ -15,6 +15,7 @@ services:
     ports:
       - 9091:9091 # transmission
       - 9696:9696 # prowlarr
+    restart: unless-stopped
   transmission:
     image: lscr.io/linuxserver/transmission:latest
     container_name: transmission
@@ -75,3 +76,11 @@ services:
     ports:
       - 7878:7878
     restart: unless-stopped
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    user: 1000:1000
+    volumes:
+      - "{{ docker_dir }}/recyclarr/data:/config"
+    environment:
+      - TZ=Europe/Berlin

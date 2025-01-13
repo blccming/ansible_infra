@@ -29,6 +29,10 @@
   include_tasks: services/homeassistant.yml
   when: "'homeassistant' in services"
 
+- name: Install Immich
+  include_tasks: services/immich.yml
+  when: "'immich' in services"
+
 - name: Install Jellyfin
   include_taks: "services/jellyfin.yml"
   when: "'jellyfin' in services"

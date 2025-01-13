@@ -4,10 +4,12 @@ nas_mount: /mnt/nas
 extra_packages:
   - btop
   - powertop
+  - mergerfs
 
 services:
   - cryptgeon
   - dashdot
+  - immich
   - jellyfin
   - nextcloud
   - piped
@@ -15,3 +17,15 @@ services:
   - syncthing
   - torrenting
   - watchtower
+
+# disk id (wwn)
+disk_id_nas: "nvme-eui.e8238fa6bf530001001b448b47dd3c77" # 2 TB SSD
+disk_id_backup: "wwn-0x5000c500e397dbe1" # 2 TB HDD
+disk_id_media_cache: "nvme-eui.00000000000000000026b7784e923b55" # 2 TB SSD
+disk_id_media_main_0: "wwn-0x5000c500f166a1e0" # 4 TB HDD
+
+disks_to_format:
+  - "{{ disk_id_nas }}"
+  - "{{ disk_id_backup }}"
+  - "{{ disk_id_media_cache }}"
+  - "{{ disk_id_media_main_0 }}"

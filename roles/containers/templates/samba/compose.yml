@@ -1,0 +1,14 @@
+---
+services:
+  samba:
+    image: dockurr/samba
+    container_name: samba
+    environment:
+      NAME: "Data"
+      USER: "{{ username }}"
+      PASS: "secret"
+    ports:
+      - 445:445
+    volumes:
+      - "{{ nas_mount }}:/storage"
+    restart: unless-stopped

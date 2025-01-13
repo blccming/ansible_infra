@@ -1,0 +1,59 @@
+---
+- name: Gather disk WWNs
+  command: lsblk -o WWN,NAME -n
+  register: disk_info
+
+- name: Set disk WWNs as facts
+  set_fact:
+    disk_list: "{{ disk_info.stdout_lines | map('split') | map('first') | list }}"
+
+- name: Define allowed disks
+  set_fact:
+    allowed_disks: "{{ disks_to_format | map('regex_replace', '^.*?/(.*)$', '\\1') | list }}"
+
+- name: Ask for formatting permission
+  pause:
+    prompt: "WARNING: DATA LOSS.\n Do you want to format the following disks (y/n)? Change in group vars, if needed.\n{{ allowed_disks }}"
+  register: allow_formatting_user_input
+
+- name: Set formatting_allowed fact based on user input
+  set_fact:
+    formatting_allowed: "{{ allow_formatting_user_input.user_input | lower == 'y' }}"
+
+- name: Ask for overwriting disks
+  pause:
+    prompt: "WARNING: DATA LOSS.\n Do you want to overwrite the disks before formatting (y/n)?"
+  register: do_overwrite_user_input
+  when: formatting_allowed
+
+- name: Set do_overwrite fact based on user input
+  set_fact:
+    do_overwrite: "{{ do_overwrite_user_input.user_input | lower == 'y' }}"
+  when: formatting_allowed
+
+- name: Overwrite disks
+  command: dd if=/dev/zero of=/dev/{{ item }} bs=1M status=progress
+  loop: "{{ disk_list }}"
+  when: item is match('^sd[a-z]$') and item in allowed_disks and do_overwrite and formatting_allowed
+  register: overwrite_results
+
+- name: Display overwriting results
+  debug:
+    var: overwrite_results
+  when: do_overwrite and formatting_allowed
+
+- name: Format disks
+  command: mkfs.btrfs /dev/{{ item }}
+  loop: "{{ disk_list }}"
+  when: item is match('^sd[a-z]$') and item in allowed_disks and formatting_allowed
+  register: format_results
+
+- name: Display format results
+  debug:
+    var: format_results
+  when: formatting_allowed
+
+- name: Display formatting not proceeding
+  debug:
+    msg: "No disks will be formatted."
+  when: not formatting_allowed

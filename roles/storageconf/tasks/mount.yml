@@ -1,0 +1,36 @@
+---
+- name: Gather disk WWNs
+  command: lsblk -o WWN,NAME -n
+  register: disk_info
+
+- name: Set disk WWNs as facts
+  set_fact:
+    disk_list: "{{ disk_info.stdout_lines | map('split') | map('first') | list }}"
+    device_list: "{{ disk_info.stdout_lines | map('split') | map('last') | list }}"
+
+- name: Create a mapping of WWNs to device names
+  set_fact:
+    wwn_to_device: "{{ wwn_to_device | default({}) | combine({ item[0]: item[1] }) }}"
+  loop: "{{ disk_info.stdout_lines | map('split') | list }}"
+
+- name: Define mount points
+  set_fact:
+    mount_points:
+      - { wwn: "{{ disk_id_backup }}", mount_point: "/mnt/backup" }
+      - { wwn: "{{ disk_id_nas }}", mount_point: "/mnt/nas" }
+      - { wwn: "{{ disk_id_media_cache }}", mount_point: "/mnt/media_cache" }
+      - { wwn: "{{ disk_id_media_main_0 }}", mount_point: "/mnt/media_main_0" }
+
+- name: Create mount points
+  file:
+    path: "{{ item.mount_point }}"
+    state: directory
+  loop: "{{ mount_points }}"
+
+- name: Mount disks
+  mount:
+    path: "{{ item.mount_point }}"
+    src: "/dev/{{ wwn_to_device[item.wwn] }}"
+    fstype: btrfs
+    state: mounted
+  loop: "{{ mount_points }}"

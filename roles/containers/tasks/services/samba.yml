@@ -1,0 +1,21 @@
+---
+- name: Create samba compose directory
+  ansible.builtin.file:
+    path: "{{ docker_compose_dir }}/samba"
+    state: directory
+    mode: "0755"
+
+- name: Copy samba compose file
+  template:
+    src: ../templates/samba/compose.yml
+    dest: "{{ docker_compose_dir }}/samba/compose.yml"
+
+- name: Check if NAS mount exists
+  stat:
+    path: "{{ nas_mount }}"
+  register: dir_stat
+
+- name: Fail if NAS mount doesn't exist
+  fail:
+    masg: "The directory {{ nas_mount }} does not exist. Make sure the drive is mounted and formatted properly!"
+  when: not dir_stat.stat.exists

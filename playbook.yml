@@ -21,6 +21,9 @@
     - role: system
       tags:
         - system
+    - role: storageconf # disable, if needed
+      tags:
+        - storageconf
     - role: geerlingguy.security
       tags:
         - security
@@ -30,3 +33,10 @@
     - role: containers
       tags:
         - containers
+
+- hosts: test_host
+  become: true
+  roles:
+    - role: storageconf
+      tags:
+        - storageconf
