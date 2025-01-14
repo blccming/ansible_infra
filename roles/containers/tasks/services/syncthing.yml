@@ -1,14 +1,15 @@
 ---
 - name: Create Syncthing compose directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_compose_dir }}/syncthing"
     state: directory
     mode: "0755"
 
 - name: Copy Syncthing compose file
   template:
-    src: ../templates/syncthing/compose.yml
+    src: "{{ role_path }}/templates/syncthing/compose.yml"
     dest: "{{ docker_compose_dir }}/syncthing/compose.yml"
+    mode: "0755"
 
 - name: Check if NAS mount exists
   stat:

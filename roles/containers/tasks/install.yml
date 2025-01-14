@@ -1,6 +1,6 @@
 ---
 - name: Make sure that the docker folders exists
-  ansible.builtin.file:
+  file:
     path: "{{ item }}"
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -9,53 +9,23 @@
     - "{{ docker_compose_dir }}"
     - "{{ docker_dir }}"
 
-- name: Install Caddy
-  include_tasks: services/caddy.yml
-  when: "'caddy' in services"
-
-- name: Install cloudflare-ddns
-  include_taks: "services/cloudflare-ddns.yml"
-  when: "'cloudflare-ddns' in services"
-
-- name: Install dashdot
-  include_taks: "services/dashdot.yml"
-  when: "'dashdot' in services"
-
-- name: Install Homarr
-  include_tasks: services/homarr.yml
-  when: "'homarr' in services"
-
-- name: Install Home Assistant
-  include_tasks: services/homeassistant.yml
-  when: "'homeassistant' in services"
-
-- name: Install Immich
-  include_tasks: services/immich.yml
-  when: "'immich' in services"
-
-- name: Install Jellyfin
-  include_taks: "services/jellyfin.yml"
-  when: "'jellyfin' in services"
-
-- name: Install Nextcloud
-  include_taks: "services/nextcloud.yml"
-  when: "'nextcloud' in services"
-
-- name: Install Piped
-  include_tasks: "services/piped.yml"
-  when: "'piped' in services"
-
-- name: Install Syncthing
-  include_tasks: "services/syncthing.yml"
-  when: "'syncthing' in services"
-
-- name: Install Torrenting applications
-  include_tasks: "services/torrenting.yml"
-  when: "'torrenting' in services"
-
-- name: Install Watchtower
-  include_tasks: "services/watchtower.yml"
-  when: "'watchtower' in services"
+- name: Install selected services
+  include_tasks: "{{ item }}"
+  when: "'{{ item.split('/')[-1].split('.')[0] }}' in services"
+  loop:
+    - services/caddy.yml
+    - services/cloudflare-ddns.yml
+    - services/dashdot.yml
+    - services/homarr.yml
+    - services/homeassistant.yml
+    - services/immich.yml
+    - services/jellyfin.yml
+    - services/nextcloud.yml
+    - services/piped.yml
+    - services/samba.yml
+    - services/syncthing.yml
+    - services/torrenting.yml
+    - services/watchtower.yml
 
 - name: Find all docker compose subdirectores
   find:

@@ -1,9 +1,9 @@
 ---
 - name: Update and upgrade packages
   apt:
-    update_cache: yes
-    upgrade: yes
-    autoremove: yes
+    update_cache: true
+    upgrade: true
+    autoremove: true
 
 - name: Check if reboot required
   stat:
@@ -21,7 +21,7 @@
     state: present
 
 - name: Set the hostname
-  ansible.builtin.hostname:
+  hostname:
     name: "{{ inventory_hostname }}"
 
 - name: Show system hostname
@@ -29,7 +29,7 @@
     msg: "System Hostname: {{ ansible_facts['hostname'] }}"
 
 - name: Replace the hostname entry with own
-  ansible.builtin.lineinfile:
+  lineinfile:
     path: /etc/hosts
     insertafter: ^127\.0\.0\.1 *localhost
     line: "127.0.0.1 {{ inventory_hostname }}"

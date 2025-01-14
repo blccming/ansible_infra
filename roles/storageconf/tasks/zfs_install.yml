@@ -1,0 +1,31 @@
+---
+- name: Add the backports repository
+  block:
+    - name: Create backports sources list
+      copy:
+        dest: /etc/apt/sources.list.d/bookworm-backports.list
+        content: |
+          deb http://deb.debian.org/debian bookworm-backports main contrib
+          deb-src http://deb.debian.org/debian bookworm-backports main contrib
+        mode: "0755"
+      notify: Update apt cache
+
+    - name: Create ZFS preferences file
+      copy:
+        dest: /etc/apt/preferences.d/90_zfs
+        content: |
+          Package: src:zfs-linux
+          Pin: release n=bookworm-backports
+          Pin-Priority: 990
+        mode: "0755"
+
+- name: Install required ZFS packages
+  apt:
+    update_cache: true
+    name:
+      - dpkg-dev
+      - linux-headers-generic
+      - linux-image-generic
+      - zfs-dkms
+      - zfsutils-linux
+    state: present

@@ -1,28 +1,30 @@
 ---
 - name: Create Immich compose directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_compose_dir }}/immich"
     state: directory
     mode: "0755"
 
 - name: Copy Immich compose file
   template:
-    src: ../templates/immich/compose.yml
+    src: "{{ role_path }}/templates/immich/compose.yml"
     dest: "{{ docker_compose_dir }}/immich/compose.yml"
+    mode: "0755"
 
 - name: Copy Immich env file
   template:
-    src: ../templates/immich/.env
+    src: "{{ role_path }}/templates/immich/.env"
     dest: "{{ docker_compose_dir }}/immich/.env"
+    mode: "0755"
 
 - name: Create Immich DB directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_dir }}/immich/postgres"
     state: directory
     mode: "0755"
 
 - name: Create Immich upload directory
-  ansible.builtin.file:
+  file:
     path: "{{ nas_mount }}/personal/Photos/Immich"
     state: directory
     mode: "0755"

@@ -1,27 +1,30 @@
 ---
 - name: Create Caddy compose directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_compose_dir }}/caddy"
     state: directory
     mode: "0755"
 
 - name: Copy Caddy compose file
   template:
-    src: ../templates/caddy/compose.yml
+    src: "{{ role_path }}/templates/caddy/compose.yml"
     dest: "{{ docker_compose_dir }}/caddy/compose.yml"
+    mode: "0755"
 
 - name: Create Caddy config directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_dir }}/caddy"
     state: directory
     mode: "0755"
 
 - name: Copy Caddy Dockerfile
   template:
-    src: ../templates/caddy/Dockerfile
+    src: "{{ role_path }}/templates/caddy/Dockerfile"
     dest: "{{ docker_dir }}/caddy/Dockerfile"
+    mode: "0755"
 
 - name: Copy Caddyfile
   template:
-    src: ../templates/caddy/Caddyfile
+    src: "{{ role_path }}/templates/caddy/Caddyfile"
     dest: "{{ docker_dir }}/caddy/Caddyfile"
+    mode: "0755"

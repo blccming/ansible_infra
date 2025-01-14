@@ -1,17 +1,18 @@
 ---
 - name: Create Nextcloud compose directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_compose_dir }}/nextcloud"
     state: directory
     mode: "0755"
 
 - name: Copy Nextcloud compose file
   template:
-    src: ../templates/nextcloud/compose.yml
+    src: "{{ role_path }}/templates/nextcloud/compose.yml"
     dest: "{{ docker_compose_dir }}/nextcloud/compose.yml"
+    mode: "0755"
 
 - name: Create Nextcloud config directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_dir }}/nextcloud"
     state: directory
     mode: "0755"

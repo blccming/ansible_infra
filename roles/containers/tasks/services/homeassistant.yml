@@ -1,11 +1,12 @@
 ---
 - name: Create Home Assistant compose directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_compose_dir }}/homeassistant"
     state: directory
     mode: "0755"
 
 - name: Copy Home Assistant compose file
   template:
-    src: ../templates/homeassistant/compose.yml
+    src: "{{ role_path }}/templates/homeassistant/compose.yml"
     dest: "{{ docker_compose_dir }}/homeassistant/compose.yml"
+    mode: "0755"

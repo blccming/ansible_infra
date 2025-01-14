@@ -1,35 +1,37 @@
 ---
 - name: Create Piped compose directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_compose_dir }}/piped"
     state: directory
     mode: "0755"
 
 - name: Copy Piped compose file
   template:
-    src: ../templates/piped/compose.yml
+    src: "{{ role_path }}/templates/piped/compose.yml"
     dest: "{{ docker_compose_dir }}/piped/compose.yml"
+    mode: "0755"
 
 - name: Create Piped db directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_dir }}/piped/data/db"
     state: directory
     mode: "0755"
 
 - name: Create Piped config directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_dir }}/piped/config"
     state: directory
     mode: "0755"
 
 - name: Find all piped config files in templates folder
   find:
-    paths: "../templates/piped/config"
+    paths: "{{ role_path }}/templates/piped/config"
     file_type: file
   register: found_files
 
 - name: Copy Piped config files
   template:
-    src: "../templates/piped/config/{{ item }}"
+    src: "{{ role_path }}/templates/piped/config/{{ item }}"
     dest: "{{ docker_dir }}/piped/config{{ item }}"
+    mode: "0755"
   with_items: "{{ found_files.files | map(attribute='path' | map('basename') | list }}"

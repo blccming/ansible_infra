@@ -1,11 +1,12 @@
 ---
 - name: Create watchtower compose directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_compose_dir }}/watchtower"
     state: directory
     mode: "0755"
 
 - name: Copy watchtower compose file
   template:
-    src: ../templates/watchtower/compose.yml
+    src: "{{ role_path }}/templates/watchtower/compose.yml"
     dest: "{{ docker_compose_dir }}/watchtower/compose.yml"
+    mode: "0755"

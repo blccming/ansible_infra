@@ -1,5 +1,9 @@
 ---
-- include_tasks: format.yml
-- include_tasks: mount.yml
-- include_tasks: zfs.yml
-- include_tasks: mergerfs.yml
+- name: Install ZFS
+  include_tasks: zfs_install.yml
+
+- name: Create ZFS pools
+  include_tasks: zfs_pool_creation.yml
+
+- name: Install and configure mergerfs
+  include_tasks: mergerfs.yml

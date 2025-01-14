@@ -1,11 +1,12 @@
 ---
 - name: Create homarr compose directory
-  ansible.builtin.file:
+  file:
     path: "{{ docker_compose_dir }}/homarr"
     state: directory
     mode: "0755"
 
 - name: Copy homarr compose file
   template:
-    src: ../templates/homarr/compose.yml
+    src: "{{ role_path }}/templates/homarr/compose.yml"
     dest: "{{ docker_compose_dir }}/homarr/compose.yml"
+    mode: "0755"
