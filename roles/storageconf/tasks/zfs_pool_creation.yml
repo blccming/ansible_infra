@@ -2,19 +2,16 @@
 - name: Gather disk information
   command: lsblk -o WWN,NAME -n
   register: disk_info
+  changed_when: false
 
 - name: Set disk WWNs and device names as facts
   set_fact:
     disk_mapping: "{{ disk_info.stdout_lines | map('split') | map('list') | map('combine', {'wwn': item[0], 'device': '/dev/' + item[1]}) | list }}"
 
-- name: Define allowed disks
-  set_fact:
-    allowed_disks: "{{ disk_format_configuration }}"
-
 # Formatting user confirmation
 - name: Ask for formatting permission
   pause:
-    prompt: "WARNING: DATA LOSS.\n Do you want to format the following disks with ZFS (y/n)? Change in group vars, if needed.\n{{ allowed_disks }}"
+    prompt: "WARNING: DATA LOSS.\n Do you want to format the following disks with ZFS (y/n)? Change in group vars, if needed.\n{{ disk_config }}"
   register: allow_formatting_user_input
 
 - name: Set formatting_allowed fact based on user input
@@ -38,7 +35,8 @@
 - block:
     - name: Overwrite disks
       command: dd if=/dev/zero of=/dev/{{ item.device }} bs=1M status=progress
-      loop: "{{ allowed_disks }}"
+      loop: "{{ disk_mapping }}"
+      when: item.wwn in disk_mapping | map(attribute='wwn') | list
       register: overwrite_results
 
     - name: Display overwriting results
@@ -48,14 +46,43 @@
 
 # Create ZFS pools (RAID-Z)
 - block:
+    - name: Create keyfile directory
+      file:
+        path: "/etc/zfs_keys"
+        state: directory
+        mode: "0600"
+
+    - name: Create keyfile
+      copy:
+        dest: "/etc/zfs_keys/keyfile"
+        content: "{{ zfs_encryption_key }}"
+        mode: "0600"
+
     - name: Create ZFS pools
-      command: >
-        zpool create -o compression=lz4
+      command: >-
+        zpool create
+        -o compression=lz4
         -o ashift={{ '12' if item.type == 'hdd' else '9' }}
         -o recordsize={{ '1M' if 'media' in item.name else '128K' }}
+        -o acltype=posixacl
+        -o dnodesize=auto
+        -o relatime=on
+        -o mountpoint=none
+        -o encryption=aes-256-gcm
+        -o keylocation=file:///etc/zfs_keys/keyfile
+        -o keyformat=raw
         {{ item.name }} raidz {{ item.wwn }}
-      loop: "{{ disk_format_configuration }}"
+      loop: "{{ disk_config }}"
       when: item.wwn in disk_mapping | map(attribute='wwn') | list
+
+    - name: Get zpool status
+      command: zpool status
+      register: zpool_status
+      changed_when: false
+
+    - name: Show zpool status
+      debug:
+        var: zpool_status
 
     # Create mount points
     - name: Create mount points
@@ -63,13 +90,14 @@
         path: "{{ item.mountpoint }}"
         state: directory
         mode: "0755"
-      loop: "{{ allowed_disks }}"
+      loop: "{{ disk_config }}"
 
     # Mount ZFS pools
     - name: Mount ZFS pools
-      command: zfs set mountpoint={{ item.mountpoint }} {{ item.name }}
-      loop: "{{ allowed_disks }}"
+      command: zfs set mountpoint={{ item.mountpoint }} {{ item.name }}/{{ item.name }}_data
+      loop: "{{ disk_config }}"
       when: item.wwn in disk_mapping | map(attribute='wwn') | list
+
   when: formatting_allowed
 
 # Formatting cancelled

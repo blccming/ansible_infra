@@ -1,10 +1,13 @@
 ---
-- hosts: raspi_clara
+- hosts: srv_clara
   become: true
   roles:
     - role: system
       tags:
         - system
+    - role: srv_cronjobs
+      tags:
+        - srv_cronjobs
     - role: geerlingguy.security
       tags:
         - security
@@ -15,12 +18,15 @@
       tags:
         - containers
 
-- hosts: main_rosa
+- hosts: srv__rosa
   become: true
   roles:
     - role: system
       tags:
         - system
+    - role: srv_cronjobs
+      tags:
+        - srv_cronjobs
     - role: storageconf # disable, if needed
       tags:
         - storageconf

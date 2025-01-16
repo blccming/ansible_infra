@@ -1,2 +1,6 @@
 ---
+- name: Install mergerfs
+  apt:
+    name: mergerfs
+    state: present
 # TODO

@@ -5,5 +5,11 @@
 - name: Create ZFS pools
   include_tasks: zfs_pool_creation.yml
 
-- name: Install and configure mergerfs
+- name: Enable necessary ZFS services and reboot
+  include_tasks: zfs_services_enable.yml
+
+- name: Install and configure mergerfs with uncaching script
   include_tasks: mergerfs.yml
+
+- name: Install and enable hdparm spindown systemd service
+  include_tasks: hdparm_spin_down.yml

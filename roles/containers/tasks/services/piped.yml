@@ -35,3 +35,17 @@
     dest: "{{ docker_dir }}/piped/config{{ item }}"
     mode: "0755"
   with_items: "{{ found_files.files | map(attribute='path' | map('basename') | list }}"
+
+- name: Copy Piped feed update script to bin directory
+  template:
+    src: "{{ role_path }}/templates/piped/update_piped_feed.sh"
+    dest: "/home/{{ username }}/bin/update_piped_feed.sh"
+    mode: "0755"
+
+- name: Create Piped feed cron job
+  cron:
+    name: "Periodically update Piped feed (every 15 minutes)"
+    minute: "*/15"
+    hour: "*"
+    job: "/home/{{ username }}/bin/update_piped_feed.sh"
+    state: present

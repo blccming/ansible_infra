@@ -1,0 +1,42 @@
+- name: Enable zfs-load-key service
+  systemd:
+    name: zfs-load-key
+    enabled: true
+    state: started
+
+- name: Enable zfs-mount service
+  systemd:
+    name: zfs-mount
+    enabled: true
+    state: started
+
+- name: Get list of ZFS pools
+  command: zpool list -H -o name
+  register: zfs_pools
+  changed_when: false
+
+- name: Enable zfs-import service for all ZFS pools
+  systemd:
+    name: "zfs-import@{{ item }}"
+    enabled: true
+    state: started
+  loop: "{{ zfs_pools.stdout_lines }}"
+  when: zfs_pools.stdout_lines | length > 0 # Only run if there are pools
+
+- name: Copy ZFS backup script to bin directory
+  template:
+    src: "{{ role_path }}/templates/zfs_backup.sh"
+    dest: "/home/{{ username }}/bin/zfs_backup.sh"
+    mode: "0755"
+
+- name: Create ZFS backup cron job
+  cron:
+    name: "Periodically update Piped feed (every day at 11:00)"
+    minute: "0"
+    hour: "11"
+    job: "/home/{{ username }}/bin/zfs_backup.sh"
+    state: present
+
+- name: Reboot
+  reboot:
+    msg: Rebooting enabling ZFS services

@@ -1,7 +1,8 @@
 ---
+autosuspend: false
+
 extra_packages:
   - btop
-  - powertop
 
 services:
   - caddy

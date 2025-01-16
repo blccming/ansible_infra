@@ -1,10 +1,8 @@
 ---
-nas_mount: /mnt/nas
+autosuspend: true
 
 extra_packages:
   - btop
-  - powertop
-  - mergerfs
 
 services:
   - cryptgeon
@@ -18,7 +16,7 @@ services:
   - torrenting
   - watchtower
 
-disk_format_configuration:
+disk_config:
   - {
       name: "naspool",
       wwn: "nvme-eui.e8238fa6bf530001001b448b47dd3c77",
@@ -43,3 +41,8 @@ disk_format_configuration:
       type: "hdd",
       mountpoint: "/mnt/media_main",
     }
+
+set_fact:
+  nas_mount: "{{ item.mountpoint }}"
+  with_items: "{{ disk_config }}"
+  when: item.name == "naspool"

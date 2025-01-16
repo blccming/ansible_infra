@@ -5,6 +5,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     state: directory
+    mode: "0755"
   loop:
     - "{{ docker_compose_dir }}"
     - "{{ docker_dir }}"
