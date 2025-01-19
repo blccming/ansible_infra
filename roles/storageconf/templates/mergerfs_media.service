@@ -1,0 +1,21 @@
+[Unit]
+Description=mergerfs /media service
+After=local-fs.target network.target
+
+[Service]
+Type=simple
+KillMode=none
+ExecStart=/usr/bin/mergerfs \
+  -f \
+  -o cache.files=off \
+  -o category.create=epff \
+  -o moveonenospc=true \
+  -o minfreespace=100G \
+  -o dropcacheonclose=false \
+  /mnt/media_cache:/mnt/media_main \
+  /media
+ExecStop=/bin/fusermount -uz /media
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

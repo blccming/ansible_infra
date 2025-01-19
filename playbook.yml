@@ -1,5 +1,5 @@
 ---
-- hosts: srv_clara
+- hosts: srv_clara # raspberry pi; raspbian
   become: true
   roles:
     - role: system
@@ -18,7 +18,7 @@
       tags:
         - containers
 
-- hosts: srv__rosa
+- hosts: srv__rosa # x86_64; debian
   become: true
   roles:
     - role: system
