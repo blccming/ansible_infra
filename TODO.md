@@ -15,6 +15,7 @@ clara
 both
 - Fedora with Gnome
 - Icon: https://github.com/somepaulo/MoreWaita
+- gpg key for git/github
 
 karl
 
