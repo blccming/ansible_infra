@@ -1,0 +1,21 @@
+- name: Create necessary directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ docker_dir }}/transmission/data"
+    - "{{ docker_dir }}/prowlarr/data"
+    - "{{ docker_dir }}/sonarr/data"
+    - "{{ docker_dir }}/radarr/data"
+    - "{{ docker_dir }}/recyclarr/data"
+    - "{{ docker_compose_dir }}/torrenting"
+    - "{{ mergerfs_media_dir }}/shows"
+    - "{{ mergerfs_media_dir }}/movies"
+    - "{{ mergerfs_media_dir }}/downloads"
+
+- name: Copy torrenting compose file
+  template:
+    src: "{{ role_path }}/templates/torrenting/compose.yml"
+    dest: "{{ docker_compose_dir }}/torrenting/compose.yml"
+    mode: "0755"

@@ -40,3 +40,8 @@ services:
       - OVERWRITECLIURL=https://cloud."{{ domain_public }}"
       - TRUSTED_PROXIES=cloud."{{ domain_public }}"
       - REDIS_HOST_PASSWORD="{{ nextcloud_redis_password }}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 2s
+      timeout: 60s
+      retries: 20

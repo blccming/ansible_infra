@@ -11,3 +11,8 @@ services:
       - "{{ docker_dir }}/homarr/data:/data"
     ports:
       - "7575:7575"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7575"]
+      interval: 2s
+      timeout: 60s
+      retries: 20

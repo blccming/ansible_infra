@@ -75,6 +75,11 @@
       loop: "{{ disk_config }}"
       when: item.wwn in disk_mapping | map(attribute='wwn') | list
 
+    - name: Create ZFS datasets
+      command: zfs create {{ item.name }}/{{ item.name }}_data
+      loop: "{{ disk_config }}"
+      when: item.wwn in disk_mapping | map(attribute='wwn') | list
+
     - name: Get zpool status
       command: zpool status
       register: zpool_status

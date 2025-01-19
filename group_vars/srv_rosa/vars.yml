@@ -42,7 +42,5 @@ disk_config:
       mountpoint: "/mnt/media_main",
     }
 
-set_fact:
-  nas_mount: "{{ item.mountpoint }}"
-  with_items: "{{ disk_config }}"
-  when: item.name == "naspool"
+nas_mount: "{{ (disk_config | selectattr('name', 'equalto', 'naspool') | first).mountpoint }}"
+mergerfs_media_dir: "/media"

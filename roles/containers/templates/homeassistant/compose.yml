@@ -10,3 +10,8 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host # port 8123
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8123"]
+      interval: 2s
+      timeout: 60s
+      retries: 20

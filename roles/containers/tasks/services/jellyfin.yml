@@ -1,4 +1,13 @@
 ---
+- name: Get getent command output for render group
+  command: getent group render
+  register: getent_render
+  changed_when: false
+
+- name: Extract GID from getent output
+  set_fact:
+    gid_render: "{{ getent_render.stdout.split(':')[2] }}"
+
 - name: Create Jellyfin compose directory
   file:
     path: "{{ docker_compose_dir }}/jellyfin"
@@ -10,6 +19,8 @@
     src: "{{ role_path }}/templates/jellyfin/compose.yml"
     dest: "{{ docker_compose_dir }}/jellyfin/compose.yml"
     mode: "0755"
+  vars:
+    - gid_render: "{{ gid_render }}"
 
 - name: Create Jellyfin config directory
   file:

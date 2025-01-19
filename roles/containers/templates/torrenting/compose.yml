@@ -24,17 +24,21 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
-      - USER=bloom
+      - USER={{ username }}
       - PASS={{ transmission_password }}
     volumes:
       - "{{ docker_dir }}/transmission/data:/config"
-      - /path/to/downloads:/downloads # TODO
-      - /path/to/watch/folder:/watch # TODO
+      - "{{ mergerfs_media_dir }}/downloads:/downloads"
     ports:
       - 9091:9091
       - 51413:51413
       - 51413:51413/udp
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091"]
+      interval: 2s
+      timeout: 60s
+      retries: 20
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -48,6 +52,11 @@ services:
     ports:
       - 9696:9696
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9696"]
+      interval: 2s
+      timeout: 60s
+      retries: 20
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
@@ -57,11 +66,16 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - "{{ docker_dir }}/sonarr/data:/config"
-      - /path/to/tvseries:/tv # TODO
-      - /path/to/downloadclient-downloads:/downloads # TODO
+      - "{{ mergerfs_media_dir }}/shows:/shows" # TODO
+      - "{{ mergerfs_media_dir }}/downloads:/downloads"
     ports:
       - 8989:8989
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8989"]
+      interval: 2s
+      timeout: 60s
+      retries: 20
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -71,11 +85,16 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - "{{ docker_dir }}/radarr/data:/config"
-      - /path/to/movies:/movies # TODO
-      - /path/to/download-client-downloads:/downloads # TODO
+      - "{{ mergerfs_media_dir }}/movies:/movies"
+      - "{{ mergerfs_media_dir }}/downloads:/downloads"
     ports:
       - 7878:7878
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7878"]
+      interval: 2s
+      timeout: 60s
+      retries: 20
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr
     container_name: recyclarr

@@ -13,7 +13,7 @@ ExecStart=/usr/bin/mergerfs \
   -o minfreespace=100G \
   -o dropcacheonclose=false \
   /mnt/media_cache:/mnt/media_main \
-  /media
+  "{{ mergerfs_media_dir }}"
 ExecStop=/bin/fusermount -uz /media
 Restart=on-failure
 

@@ -12,3 +12,8 @@ services:
       DASHDOT_WIDGET_LIST: "os,cpu,ram,network"
       DASHDOT_ENABLE_CPU_TEMPS: "true"
       DASHDOT_SHOW_HOST: "true"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001"]
+      interval: 2s
+      timeout: 60s
+      retries: 20
