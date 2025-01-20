@@ -1,0 +1,32 @@
+---
+services:
+  authelia:
+    container_name: "authelia"
+    image: "docker.io/authelia/authelia:latest"
+    restart: "unless-stopped"
+    networks:
+      net:
+        aliases: []
+    environment:
+      AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: "/secrets/JWT_SECRET"
+      AUTHELIA_SESSION_SECRET_FILE: "/secrets/SESSION_SECRET"
+      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: "/secrets/STORAGE_ENCRYPTION_KEY"
+      AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: "/secrets/LDAP_PASSWORD"
+    volumes:
+      - "{{ docker_dir }}/authelia/config:/config"
+      - "{{ docker_dir }}/authelia/secrets:/secrets"
+  redis:
+    image: "redis:alpine"
+    container_name: "redis"
+    volumes:
+      - "{{ docker_dir }}/authelia/redis:/data"
+    networks:
+      net: {}
+    restart: "unless-stopped"
+    environment:
+      TZ: "Europe/Berlin"
+# TODO: LLDAP server
+networks:
+  net:
+    external: true
+    name: "net"

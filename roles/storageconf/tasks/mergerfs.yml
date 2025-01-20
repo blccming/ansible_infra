@@ -9,8 +9,6 @@
     src: "{{ role_path }}/templates/mergerfs_media.service"
     dest: /etc/systemd/sytem/mergerfs_media.service
     mode: "0644"
-  var:
-    mergerfs_media_dir: "{{ mergerfs_media_dir }}"
 
 - name: Enable service file
   systemd:
@@ -29,5 +27,5 @@
     name: Perdiodically run uncaching script (every hour)
     minute: "0"
     hour: "*"
-    job: "python3 /home/{{ username }}/bin/uncache.py"
+    job: "python3 /home/{{ username }}/bin/uncache.py -s /mnt/media_cache -d /mnt/media_main -t 80"
     state: present

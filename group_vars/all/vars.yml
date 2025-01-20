@@ -9,10 +9,11 @@ docker_compose_dir: /opt/docker/compose
 
 # SSH (geerlingguy.security)
 security_ssh_allowed_users: ["{{ username }}"]
+security_autoupdate_enabled: true
 security_autoupdate_reboot: true
 security_autoupdate_reboot_time: "03:00"
 security_fail2ban_enabled: true
 
 # network
-domain_local: lab.zykla.me
-domain_public: zykla.me
+domain_public: blccm.ing
+domain_local: "lab.{{ domain_public }}"

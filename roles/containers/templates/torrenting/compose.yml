@@ -13,7 +13,7 @@ services:
       - SERVER_COUNTRIES=Germany,France,Austria
       - OWNED_ONLY=yes
     ports:
-      - 9091:9091 # transmission
+      - 9191:9191 # transmission
       - 9696:9696 # prowlarr
     restart: unless-stopped
   transmission:
@@ -30,7 +30,7 @@ services:
       - "{{ docker_dir }}/transmission/data:/config"
       - "{{ mergerfs_media_dir }}/downloads:/downloads"
     ports:
-      - 9091:9091
+      - 9191:9191
       - 51413:51413
       - 51413:51413/udp
     restart: unless-stopped

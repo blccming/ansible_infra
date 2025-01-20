@@ -1,3 +1,4 @@
+---
 - name: Copy service file to host
   template:
     src: "{{ role_path }}/templates/hdparm_spin_down.service"
