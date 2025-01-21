@@ -1,20 +1,17 @@
 ---
-- name: Create cloudflare-ddns compose directory
+- name: Create cloudflare-ddns directories (compose, config)
   file:
-    path: "{{ docker_compose_dir }}/cloudflare-ddns"
+    path: "{{ item }}"
     state: directory
     mode: "0755"
+  loop:
+    - "{{ docker_compose_dir }}/cloudflare-ddns"
+    - "{{ docker_dir }}/cloudflare-ddns"
 
 - name: Copy cloudflare-ddns compose file
   template:
     src: "{{ role_path }}/templates/cloudflare-ddns/compose.yml"
     dest: "{{ docker_compose_dir }}/cloudflare-ddns/compose.yml"
-    mode: "0755"
-
-- name: Create cloudflare-ddns config directory
-  file:
-    path: "{{ docker_dir }}/cloudflare-ddns"
-    state: directory
     mode: "0755"
 
 - name: Copy cloudflare-ddns config.json

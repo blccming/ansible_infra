@@ -1,20 +1,17 @@
 ---
-- name: Create Caddy compose directory
+- name: Create Caddy directories (compose, config)
   file:
-    path: "{{ docker_compose_dir }}/caddy"
+    path: "{{ item }}"
     state: directory
     mode: "0755"
+  loop:
+    - "{{ docker_compose_dir }}/caddy"
+    - "{{ docker_dir }}/caddy"
 
 - name: Copy Caddy compose file
   template:
     src: "{{ role_path }}/templates/caddy/compose.yml"
     dest: "{{ docker_compose_dir }}/caddy/compose.yml"
-    mode: "0755"
-
-- name: Create Caddy config directory
-  file:
-    path: "{{ docker_dir }}/caddy"
-    state: directory
     mode: "0755"
 
 - name: Copy Caddy Dockerfile

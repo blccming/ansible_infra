@@ -1,4 +1,14 @@
 ---
+- name: Create Jellyfin directories (compose, config, cache)
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ docker_compose_dir }}/jellyfin"
+    - "{{ docker_dir }}/jellyfin/config"
+    - "{{ docker_dir }}/jellyfin/cache"
+
 - name: Get getent command output for render group
   command: getent group render
   register: getent_render
@@ -8,12 +18,6 @@
   set_fact:
     gid_render: "{{ getent_render.stdout.split(':')[2] }}"
 
-- name: Create Jellyfin compose directory
-  file:
-    path: "{{ docker_compose_dir }}/jellyfin"
-    state: directory
-    mode: "0755"
-
 - name: Copy Jellyfin compose file
   template:
     src: "{{ role_path }}/templates/jellyfin/compose.yml"
@@ -21,15 +25,3 @@
     mode: "0755"
   vars:
     - gid_render: "{{ gid_render }}"
-
-- name: Create Jellyfin config directory
-  file:
-    path: "{{ docker_dir }}/jellyfin/config"
-    state: directory
-    mode: "0755"
-
-- name: Create Jellyfin cache directory
-  file:
-    path: "{{ docker_dir }}/jellyfin/cache"
-    state: directory
-    mode: "0755"

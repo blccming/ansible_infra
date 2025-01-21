@@ -14,6 +14,7 @@
   include_tasks: "{{ item }}"
   when: "'{{ item.split('/')[-1].split('.')[0] }}' in services"
   loop:
+    - services/authelia.yml
     - services/caddy.yml
     - services/cloudflare-ddns.yml
     - services/dashdot.yml

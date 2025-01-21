@@ -12,7 +12,7 @@ services:
     restart: always
     command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
     volumes:
-      - ./db:/var/lib/mysql
+      - "{{ docker_dir }}/nextcloud/db:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD="{{ nextcloud_mysql_root_password }}"
       - MYSQL_PASSWORD="{{ nextcloud_mysql_password }}"
@@ -27,8 +27,9 @@ services:
       - db
       - redis
     volumes:
-      - "{{ docker_dir }}/nextcloud:/var/www/html"
-      - "{{ docker_dir }}/nextcloud/php-local.ini:/usr/local/etc/php/php-local.ini"
+      - "{{ nas_mount }}/nextcloud_data:/var/www/html/data"
+      - "{{ docker_dir }}/nextcloud/config:/var/www/html"
+      - "{{ docker_dir }}/nextcloud/config/php-local.ini:/usr/local/etc/php/php-local.ini"
     environment:
       - MYSQL_PASSWORD="{{ nextcloud_mysql_password }}"
       - MYSQL_DATABASE=nextcloud

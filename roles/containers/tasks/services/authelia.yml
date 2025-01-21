@@ -10,23 +10,15 @@
     dest: "{{ docker_compose_dir }}/authelia/compose.yml"
     mode: "0755"
 
-- name: Create Authelia config directory
+- name: Create Authelia directories (config, redis, secrets)
   file:
-    path: "{{ docker_dir }}/authelia/config"
+    path: "{{ item }}"
     state: directory
     mode: "0755"
-
-- name: Create Authelia redis directory
-  file:
-    path: "{{ docker_dir }}/authelia/redis"
-    state: directory
-    mode: "0755"
-
-- name: Create Authelia secrets directory
-  file:
-    path: "{{ docker_dir }}/authelia/secrets"
-    state: directory
-    mode: "0755"
+  loop:
+    - "{{ docker_dir }}/authelia/config"
+    - "{{ docker_dir }}/authelia/redis"
+    - "{{ docker_dir }}/authelia/secrets"
 
 - name: Create Authelia JWT_SECRET file
   copy:
@@ -38,12 +30,6 @@
   copy:
     content: "{{ authelia_session_secret }}"
     dest: "{{ docker_dir }}/authelia/secrets/SESSION_SECRET"
-    mode: "0640"
-
-- name: Create Authelia STORAGE_PASSWORD file
-  copy:
-    content: "{{ authelia_storage_password }}"
-    dest: "{{ docker_dir }}/authelia/secrets/STORAGE_PASSWORD"
     mode: "0640"
 
 - name: Create Authelia STORAGE_ENCRYPTION_KEY file

@@ -1,9 +1,13 @@
 ---
-- name: Create Immich compose directory
+- name: Create Immich directories (compose, db, upload)
   file:
-    path: "{{ docker_compose_dir }}/immich"
+    path: "{{ item }}"
     state: directory
     mode: "0755"
+  loop:
+    - "{{ docker_compose_dir }}/immich"
+    - "{{ docker_dir }}/immich/postgres"
+    - "{{ nas_mount }}/personal/Photos/Immich"
 
 - name: Copy Immich compose file
   template:
@@ -15,16 +19,4 @@
   template:
     src: "{{ role_path }}/templates/immich/.env"
     dest: "{{ docker_compose_dir }}/immich/.env"
-    mode: "0755"
-
-- name: Create Immich DB directory
-  file:
-    path: "{{ docker_dir }}/immich/postgres"
-    state: directory
-    mode: "0755"
-
-- name: Create Immich upload directory
-  file:
-    path: "{{ nas_mount }}/personal/Photos/Immich"
-    state: directory
     mode: "0755"

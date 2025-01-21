@@ -1,26 +1,18 @@
 ---
-- name: Create Piped compose directory
+- name: Create Piped directories (compose, config, db)
   file:
-    path: "{{ docker_compose_dir }}/piped"
+    path: "{{ item }}"
     state: directory
     mode: "0755"
+  loop:
+    - "{{ docker_compose_dir }}/piped"
+    - "{{ docker_dir }}/piped/config"
+    - "{{ docker_dir }}/piped/data/db"
 
 - name: Copy Piped compose file
   template:
     src: "{{ role_path }}/templates/piped/compose.yml"
     dest: "{{ docker_compose_dir }}/piped/compose.yml"
-    mode: "0755"
-
-- name: Create Piped db directory
-  file:
-    path: "{{ docker_dir }}/piped/data/db"
-    state: directory
-    mode: "0755"
-
-- name: Create Piped config directory
-  file:
-    path: "{{ docker_dir }}/piped/config"
-    state: directory
     mode: "0755"
 
 - name: Find all piped config files in templates folder
