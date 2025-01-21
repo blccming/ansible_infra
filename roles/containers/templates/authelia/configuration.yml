@@ -11,7 +11,7 @@ authentication_backend:
     implementation: "lldap"
     timeout: "5s"
     start_tls: false
-    base_dn: "DC={{ domain_local.split('.')[0] }},DC={{ domain_local.split('.')[1] }},DC={{ domain_local.split('.')[2] }}"
+    base_dn: "DC={{ domain_local.split('.')[1] }},DC={{ domain_local.split('.')[2] }}"
     users_filter: "(&({username_attribute}={input})(objectClass=person))"
     groups_filter: "(&(member={dn})(objectClass=groupOfNames))"
     group_search_mode: "filter"

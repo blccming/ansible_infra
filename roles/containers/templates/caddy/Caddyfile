@@ -4,22 +4,6 @@
 	order wake_on_lan before respond
 }
 
-auth.{{ domain_public }} {
-	reverse_proxy 192.168.178.24:9091
-	tls {
-		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
-	}
-	handle_errors {
-		@502 expression {err.status_code} == 502
-		handle @502 {
-			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
-			reverse_proxy 192.168.178.24:9091 {
-				lb_try_duration 60s
-			}
-		}
-	}
-}
-
 cloud.{{ domain_public }} {
 	reverse_proxy 192.168.178.24:8080
 	tls {
@@ -200,6 +184,13 @@ piped.{{ domain_local }}, pipedapi.{{ domain_local }}, pipedproxy.{{ domain_loca
 	}
 }
 
+auth.{{ domain_public }} {
+	reverse_proxy 192.168.178.20:9091
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+}
+
 hrr.{{ domain_local }} {
 	reverse_proxy 192.168.178.20:7575
 	tls {
@@ -209,6 +200,13 @@ hrr.{{ domain_local }} {
 
 hoas.{{ domain_local }} {
 	reverse_proxy 192.168.178.20:8123
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+}
+
+lldap.{{ domain_local }} {
+	reverse_proxy 192.168.178.20:17170
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}

@@ -15,6 +15,7 @@ services:
     volumes:
       - "{{ docker_dir }}/authelia/config:/config"
       - "{{ docker_dir }}/authelia/secrets:/secrets"
+
   redis:
     image: "redis:alpine"
     container_name: "redis"
@@ -25,7 +26,23 @@ services:
     restart: "unless-stopped"
     environment:
       TZ: "Europe/Berlin"
-# TODO: LLDAP server
+
+  lldap:
+    image: lldap/lldap:stable
+    restart: "unless-stopped"
+    ports:
+      - "17170:17170" # web ui
+    volumes:
+      - "{{ docker_dir }}/lldap:/data"
+      - "{{ docker_dir }}/authelia/secrets:/secrets"
+    networks:
+      net: {}
+    environment:
+      TZ: "Europe/Berlin"
+      LLDAP_LDAP_BASE_DN: "DC={{ domain_local.split('.')[1] }},DC={{ domain_local.split('.')[2] }}"
+      LLDAP_JWT_SECRET_FILE: "/secrets/JWT_SECRET"
+      LLDAP_LDAP_USER_PASS_FILE: "/secrets/LDAP_PASSWORD"
+
 networks:
   net:
     external: true

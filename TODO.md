@@ -11,7 +11,6 @@ rosa
 clara
 - authelia
   - [Prerequisites](https://www.authelia.com/integration/prologue/get-started/)
-  - [LLDAP](https://github.com/lldap/lldap?tab=readme-ov-file#with-docker)
   - configure for
     - immich
     - jellyfin
