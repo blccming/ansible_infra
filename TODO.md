@@ -8,19 +8,6 @@ rosa
   - zfs keyfile accessed
   - health check fails
 
-clara
-- authelia
-  - [Prerequisites](https://www.authelia.com/integration/prologue/get-started/)
-  - configure for
-    - immich
-    - jellyfin
-    - nextcloud
-    - soon: [piped](https://github.com/TeamPiped/Piped/pull/2571)
-    - syncthing, [!!!](https://forum.syncthing.net/t/hide-no-authentication-warning-when-external-auth-already-exists/17742/8)
-      - enforce with reverse proxy / no internal integration
-    - transmission and *arr
-- [caddy integration](https://www.authelia.com/integration/proxies/caddy/)
-
 #### personal computers
 both
 - Fedora with Gnome

@@ -9,6 +9,10 @@ cloud.{{ domain_public }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -25,6 +29,10 @@ crg.{{ domain_public }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -43,6 +51,10 @@ dd.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -60,6 +72,10 @@ fin.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -76,6 +92,10 @@ imch.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -92,6 +112,10 @@ sync.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -108,6 +132,10 @@ trans.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -124,6 +152,10 @@ srr.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -140,6 +172,10 @@ rrr.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -156,6 +192,10 @@ prr.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -173,6 +213,10 @@ piped.{{ domain_local }}, pipedapi.{{ domain_local }}, pipedproxy.{{ domain_loca
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 	handle_errors {
 		@502 expression {err.status_code} == 502
 		handle @502 {
@@ -196,6 +240,10 @@ hrr.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 }
 
 hoas.{{ domain_local }} {
@@ -203,6 +251,10 @@ hoas.{{ domain_local }} {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 }
 
 lldap.{{ domain_local }} {

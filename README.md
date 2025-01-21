@@ -28,5 +28,10 @@ sh run.sh
 ansible-vault edit --vault-password-file=.vault_pass ./group_vars/all/secrets.yml
 ```
 
+## Notes
+
+When running Authelia behind a cloud proxy (e.g. cloudflare) make sure to [remove the X-Forwarded-For header](https://www.authelia.com/integration/proxies/forwarded-headers/).
+
 ## Special thanks
+
 - [notthebee](https://github.com/notthebee) for his ansible [playbook](https://github.com/notthebee/infra) and [youtube series](https://yewtu.be/playlist?list=PLkxWXio1KmRoZd88WbrnSnQM5MJY5PjH2)
