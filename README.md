@@ -34,7 +34,7 @@ ansible-vault edit --vault-password-file=.vault_pass ./group_vars/all/secrets.ym
 ```
 
 > [!NOTE]
-> Look at [examples/group_vars/all/secrets.yml](https://github.com/blccming/ansible-infra/tree/master/examples/group_vars/all/secrets.yml) for creating your own
+> Look at [examples/group_vars/all/secrets.yml](https://github.com/blccming/ansible_infra/blob/master/examples/group_vars/all/secrets.yml) for creating your own
 
 ## Special thanks
 
