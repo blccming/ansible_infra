@@ -28,13 +28,13 @@ sh run.sh
 1. Create .vault_pass and paste the password into it
 
 
-2. Use ansible-vault to edit ./group_vars/all/secrets.yml
+2. Use ansible-vault to edit `./group_vars/all/secrets.yml`
 ```bash
 ansible-vault edit --vault-password-file=.vault_pass ./group_vars/all/secrets.yml
 ```
 
 > [!NOTE]
-> Look at [examples/group_vars/all/secrets.yml](https://github.com/blccming/ansible_infra/blob/master/examples/group_vars/all/secrets.yml) for creating your own
+> Look at [examples/group_vars/all/secrets.yml](https://github.com/blccming/ansible_infra/blob/master/examples/group_vars/all/secrets.yml) for creating your own `secrets.yml`
 
 ## Special thanks
 
