@@ -7,10 +7,12 @@ This playbook is used to manage my personal infrastructure with IaC via Ansible.
 1. Create ssh key and copy the key to the server
 ```bash
 export SSH_USER="bloom"
+export HOST=0.0.0.0 # set accordingly
+
 ssh-keygen -t ed25519 -C "$SSH_USER"
 ssh-add ~/.ssh/$SSH_USER
-ssh-copy-id -i ~/.ssh/$SSH_USER $SSH_USER@<SERVER-IP>
-ssh $SSH_USER@<SERVER-IP>
+ssh-copy-id -i ~/.ssh/$SSH_USER $SSH_USER@$HOST
+ssh $SSH_USER@$HOST
 ```
 
 2. Check inventory.ini for correct information about the server(s)
