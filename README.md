@@ -6,10 +6,11 @@ This playbook is used to manage my personal infrastructure with IaC via Ansible.
 
 1. Create ssh key and copy the key to the server
 ```bash
-ssh-keygen -t ed25519 -C "bloom"
-ssh-add ~/.ssh/bloom
-ssh-copy-id -i ~/.ssh/bloom bloom@<SERVER-IP>
-ssh bloom@<SERVER-IP>
+export SSH_USER="bloom"
+ssh-keygen -t ed25519 -C "$SSH_USER"
+ssh-add ~/.ssh/$SSH_USER
+ssh-copy-id -i ~/.ssh/$SSH_USER $SSH_USER@<SERVER-IP>
+ssh $SSH_USER@<SERVER-IP>
 ```
 
 2. Check inventory.ini for correct information about the server(s)
@@ -19,18 +20,21 @@ ssh bloom@<SERVER-IP>
 sh run.sh
 ```
 
+> [!IMPORTANT]
+> When running Authelia behind a cloud proxy (e.g. cloudflare) make sure to [remove the X-Forwarded-For header](https://www.authelia.com/integration/proxies/forwarded-headers/).
+
 ## Edit secrets
 
 1. Create .vault_pass and paste the password into it
+
 
 2. Use ansible-vault to edit ./group_vars/all/secrets.yml
 ```bash
 ansible-vault edit --vault-password-file=.vault_pass ./group_vars/all/secrets.yml
 ```
 
-## Notes
-
-When running Authelia behind a cloud proxy (e.g. cloudflare) make sure to [remove the X-Forwarded-For header](https://www.authelia.com/integration/proxies/forwarded-headers/).
+> [!NOTE]
+> Look at [examples/group_vars/all/secrets.yml](https://github.com/blccming/ansible-infra/tree/master/examples/group_vars/all/secrets.yml) for creating your own
 
 ## Special thanks
 
