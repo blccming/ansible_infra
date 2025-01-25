@@ -1,3 +1,4 @@
+---
 - name: Create Authelia compose directory
   file:
     path: "{{ docker_compose_dir }}/authelia"

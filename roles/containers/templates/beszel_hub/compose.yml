@@ -1,0 +1,12 @@
+---
+services:
+  beszel:
+    image: henrygd/beszel:latest
+    container_name: beszel
+    restart: unless-stopped
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    ports:
+      - 8090:8090
+    volumes:
+      - "{{ docker_dir }}/beszel_data:/beszel_data"

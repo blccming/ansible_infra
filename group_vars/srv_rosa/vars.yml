@@ -6,12 +6,13 @@ extra_packages:
 
 services:
   - cryptgeon
-  - dashdot
+  - beszel_agent
   - immich
   - jellyfin
   - nextcloud
   - piped
   - samba
+  - scp_target
   - syncthing
   - torrenting
   - watchtower

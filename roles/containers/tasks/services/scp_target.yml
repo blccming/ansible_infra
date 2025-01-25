@@ -1,0 +1,29 @@
+- name: Create scp_target directories (compose, config, data, secrets)
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ docker_compose_dir }}/scp_target"
+    - "{{ docker_dir }}/scp_target/config"
+    - "{{ docker_dir }}/scp_target/secrets"
+    - "{{ docker_dir }}/scp_target/scripts"
+    - "{{ docker_dir }}/scp_target/data"
+
+- name: Copy scp_target compose file
+  template:
+    src: "{{ role_path }}/templates/scp_target/compose.yml"
+    dest: "{{ docker_compose_dir }}/scp_target/compose.yml"
+    mode: "0755"
+
+- name: Copy free_up_space.sh script
+  template:
+    src: "{{ role_path }}/templates/scp_target/free_up_space.sh"
+    dest: "{{ docker_dir }}/scp_target/scripts/free_up_space.sh"
+    mode: "0755"
+
+- name: Create scp_target USER_PASSWORD file
+  copy:
+    content: "{{ scp_target_user_password }}"
+    dest: "{{ docker_dir }}/scp_target/secrets/USER_PASSWORD"
+    mode: "0640"

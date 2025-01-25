@@ -1,0 +1,19 @@
+---
+- name: Create Beszel Agent compose diretory
+  file:
+    path: "{{ docker_compose_dir }}/beszel_agent"
+    state: directory
+    mode: "0755"
+
+- name: Copy Beszel Agent compose file
+  template:
+    src: "{{ role_path }}/templates/beszel_agent/compose.yml"
+    dest: "{{ docker_compose_dir }}/beszel_agent/compose.yml"
+    mode: "0755"
+
+- name: Create .beszel directories for disk monitoring
+  file:
+    path: "{{ item.mountpoint }}/.beszel"
+    state: directory
+    mode: "0755"
+  loop: "{{ disk_config }}"

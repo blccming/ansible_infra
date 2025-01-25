@@ -5,6 +5,9 @@ extra_packages:
   - btop
 
 services:
+  - authelia
+  - beszel_agent
+  - beszel_hub
   - caddy
   - cloudflare-ddns
   - homarr

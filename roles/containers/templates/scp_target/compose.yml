@@ -1,0 +1,30 @@
+---
+services:
+  openssh-server:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: scp_target-openssh
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - SUDO_ACCESS=false
+      - PASSWORD_ACCESS=true
+      - USER_PASSWORD_FILE=/secrets/USER_PASSWORD
+      - USER_NAME=scp_user
+    volumes:
+      - "{{ docker_dir }}/scp_target/config:/config"
+      - "{{ docker_dir }}/scp_target/secrets:/secrets"
+      - "{{ docker_dir }}/scp_target/scripts:/scripts"
+      - "{{ docker_dir }}/scp_target/data:/data"
+    ports:
+      - 2222:2222
+    restart: unless-stopped
+
+  cron:
+    image: whefter/cron
+    container_name: scp_target-cron
+    network_mode: none
+    volumes:
+      - "{{ docker_dir }}/scp_target/data:/data"
+    environment:
+      - "CRON_FREE_UP_SPACE=*/30 * * * * root /scripts/free_up_space.sh"
+    restart: unless-stopped

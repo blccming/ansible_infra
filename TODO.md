@@ -7,6 +7,9 @@ rosa
   - ssh login
   - zfs keyfile accessed
   - health check fails
+- utilize syncoid for zfs backups
+- scp_target container
+  - write free_up_space.sh script
 
 #### personal computers
 both
