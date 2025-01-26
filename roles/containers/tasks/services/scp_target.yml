@@ -9,6 +9,7 @@
     - "{{ docker_dir }}/scp_target/secrets"
     - "{{ docker_dir }}/scp_target/scripts"
     - "{{ docker_dir }}/scp_target/data"
+    - "{{ docker_dir }}/scp_target/tailscale/state"
 
 - name: Copy scp_target compose file
   template:
