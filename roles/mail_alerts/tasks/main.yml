@@ -1,0 +1,6 @@
+---
+- name: Copy send_notification_mail script to bin directory
+  template:
+    src: "{{ role_path }}/templates/send_notification_mail.sh"
+    dest: "/home/{{ username }}/bin/send_notification_mail.sh"
+    mode: "0755"

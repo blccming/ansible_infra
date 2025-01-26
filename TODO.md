@@ -2,14 +2,12 @@
 rosa
 - make wwn a list to support more than one drive per pool
   - group_vars/srv_rosa/vars.yml
-- notifications (via mail or signal?)
+- notification via mail
   - performed an update
   - ssh login
   - zfs keyfile accessed
   - health check fails
 - utilize syncoid for zfs backups
-- scp_target container
-  - write free_up_space.sh script
 
 #### personal computers
 both
