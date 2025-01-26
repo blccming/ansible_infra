@@ -10,13 +10,14 @@ rosa
 - utilize syncoid for zfs backups
 - scp_target container
   - write free_up_space.sh script
-  - add tailscale
 
 #### personal computers
 both
 - Fedora with Gnome
 - Icon: https://github.com/somepaulo/MoreWaita
 - gpg key for git/github
+- bashrc (spotdl, yt-dlp)
+- starship.rs
 
 karl
 
