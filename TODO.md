@@ -10,6 +10,7 @@ rosa
 - utilize syncoid for zfs backups
 - scp_target container
   - write free_up_space.sh script
+  - add tailscale
 
 #### personal computers
 both

@@ -17,6 +17,9 @@ services:
       - "{{ docker_dir }}/scp_target/data:/data"
     ports:
       - 2222:2222
+    network_mode: "service:tailscale"
+    depends_on:
+      - tailscale
     restart: unless-stopped
 
   cron:
@@ -27,4 +30,21 @@ services:
       - "{{ docker_dir }}/scp_target/data:/data"
     environment:
       - "CRON_FREE_UP_SPACE=*/30 * * * * root /scripts/free_up_space.sh"
+    restart: unless-stopped
+
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: scp_target-tailscale
+    hostname: scp_target-{{ hostname }}
+    environment:
+      - TS_AUTHKEY={{ scp_target_ts_auth_key }}
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERPSACE=false
+    volumes:
+      - "{{ docker_dir }}/scp_target/tailscale/state:/var/lib/tailscale"
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
     restart: unless-stopped
