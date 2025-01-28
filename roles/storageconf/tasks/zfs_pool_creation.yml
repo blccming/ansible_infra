@@ -56,6 +56,8 @@
       copy:
         dest: "/etc/zfs_keys/keyfile"
         content: "{{ zfs_encryption_key }}"
+        owner: root
+        group: root
         mode: "0600"
 
     - name: Create ZFS pools

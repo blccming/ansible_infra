@@ -4,6 +4,8 @@ Description=Set hdparm spin-down time to 2 minutes
 [Service]
 Type=oneshot
 ExecStart=/sbin/hdparm -S 120 /dev/sd*
+User=root
+Group=root
 
 [Install]
 WantedBy=multi-user.target

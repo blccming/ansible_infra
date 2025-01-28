@@ -1,0 +1,11 @@
+[Unit]
+Description=Watch zfs keyfile and execute mail notification script when it is accessed
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/watch_zfs_keyfile.sh
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

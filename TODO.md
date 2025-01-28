@@ -4,9 +4,6 @@ rosa
   - group_vars/srv_rosa/vars.yml
 - notification via mail
   - performed an update
-  - ssh login
-  - zfs keyfile accessed
-  - health check fails
 - utilize syncoid for zfs backups
 
 #### personal computers

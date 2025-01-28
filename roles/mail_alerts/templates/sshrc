@@ -1,0 +1,8 @@
+LOGIN_IP=`echo $SSH_CONNECTION | cut -d " " -f 1`
+CURRENT_TIME=$(date +"%Y-%m-%dT%H:%M:%S %Z")
+
+logger -t ssh-wrapper $USER login from $LOGIN_IP
+
+/home/{{ hostname }}/bin/send_notification_mail.sh \
+    "⚠️ New SSH login" \
+    "$USER logged in from <strong>$LOGIN_IP</strong> at <strong>$CURRENT_TIME</strong>" &
