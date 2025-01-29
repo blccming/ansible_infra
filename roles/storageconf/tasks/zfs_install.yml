@@ -28,4 +28,5 @@
       - linux-image-generic
       - zfs-dkms
       - zfsutils-linux
+      - sanoid # backup solution
     state: present

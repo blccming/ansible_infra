@@ -4,7 +4,6 @@ rosa
   - group_vars/srv_rosa/vars.yml
 - notification via mail
   - performed an update
-- utilize syncoid for zfs backups
 
 #### personal computers
 both

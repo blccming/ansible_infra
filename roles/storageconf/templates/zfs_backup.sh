@@ -2,13 +2,9 @@
 
 SOURCE_POOL="naspool/naspool_data"
 TARGET_POOL="backuppool/backuppool_data"
-SNAPSHOT_NAME="$(date +%Y-%m-%d_%H-%M)"
+MAIL_SCRIPT="/home/{{ username }}/bin/send_notification_mail.sh"
 
-# Create snapshot on source pool
-zfs snapshot ${SOURCE_POOL}@${SNAPSHOT_NAME}
+syncoid "$SOURCE_POOL" "$TARGET_POOL"
 
-# Send the snapshot to the target pool
-zfs send ${SOURCE_POOL}@${SNAPSHOT_NAME} | zfs receive ${TARGET_POOL}
-
-# Remove the snapshot from source pool after sending
-zfs destroy ${SOURCE_POOL}@${SNAPSHOT_NAME}
+CURRENT_TIME=$(date +"%Y-%m-%dT%H:%M:%S %Z"
+bash "$MAIL_SCRIPT" "💾 {{ hostname }}: Backup performed" "Syncoid completed a backup at <strong>$CURRENT_TIME</strong>."

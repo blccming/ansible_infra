@@ -27,15 +27,17 @@
 - name: Copy ZFS backup script to bin directory
   template:
     src: "{{ role_path }}/templates/zfs_backup.sh"
-    dest: "/home/{{ username }}/bin/zfs_backup.sh"
-    mode: "0755"
+    dest: "/usr/local/sbin/zfs_backup.sh"
+    owner: root
+    group: root
+    mode: "0700"
 
 - name: Create ZFS backup cron job
   cron:
-    name: "Periodically update Piped feed (every day at 11:00)"
+    name: "Periodically backup zfs nas pool to backup pool (every day at 11:00)"
     minute: "0"
     hour: "11"
-    job: "/home/{{ username }}/bin/zfs_backup.sh"
+    job: "/usr/local/sbin/zfs_backup.sh"
     state: present
 
 - name: Reboot
