@@ -13,28 +13,30 @@
     group: root
     mode: "0644"
 
-- name: Install inotify-tools (includes inotify-watch)
-  apt:
-    update_cache: true
-    name: inotify-tools
-    state: present
+- block:
+    - name: Install inotify-tools (includes inotify-watch)
+      apt:
+        update_cache: true
+        name: inotify-tools
+        state: present
 
-- name: Copy watch_zfs_keyfile.sh script to host
-  template:
-    src: "{{ role_path }}/templates/watch_zfs_keyfile.sh"
-    dest: "/usr/local/sbin/watch_zfs_keyfile.sh"
-    owner: root
-    group: root
-    mode: "0700"
+    - name: Copy watch_zfs_keyfile.sh script to host
+      template:
+        src: "{{ role_path }}/templates/watch_zfs_keyfile.sh"
+        dest: "/usr/local/sbin/watch_zfs_keyfile.sh"
+        owner: root
+        group: root
+        mode: "0700"
 
-- name: Copy zfs watch service file to host
-  template:
-    src: "{{ role_path }}/templates/zfs_keyfile_watch.service"
-    dest: /etc/systemd/sytem/zfs_keyfile_watch.service
-    mode: "0644"
+    - name: Copy zfs watch service file to host
+      template:
+        src: "{{ role_path }}/templates/zfs_keyfile_watch.service"
+        dest: /etc/systemd/sytem/zfs_keyfile_watch.service
+        mode: "0644"
 
-- name: Enable zfs watch service file
-  systemd:
-    name: zfs_keyfile_watch
-    enabled: true
-    state: started
+    - name: Enable zfs watch service file
+      systemd:
+        name: zfs_keyfile_watch
+        enabled: true
+        state: started
+  when: disk_config | length > 0

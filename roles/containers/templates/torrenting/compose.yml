@@ -16,6 +16,7 @@ services:
       - 9191:9191 # transmission
       - 9696:9696 # prowlarr
     restart: unless-stopped
+
   transmission:
     image: lscr.io/linuxserver/transmission:latest
     container_name: transmission
@@ -24,8 +25,6 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
-      - USER={{ username }}
-      - PASS={{ transmission_password }}
     volumes:
       - "{{ docker_dir }}/transmission/data:/config"
       - "{{ mergerfs_media_dir }}/downloads:/downloads"
@@ -39,6 +38,7 @@ services:
       interval: 2s
       timeout: 60s
       retries: 20
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -57,6 +57,7 @@ services:
       interval: 2s
       timeout: 60s
       retries: 20
+
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
@@ -76,6 +77,7 @@ services:
       interval: 2s
       timeout: 60s
       retries: 20
+
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -95,6 +97,7 @@ services:
       interval: 2s
       timeout: 60s
       retries: 20
+
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr
     container_name: recyclarr
