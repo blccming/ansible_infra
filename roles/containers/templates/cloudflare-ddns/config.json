@@ -2,7 +2,7 @@
   "cloudflare": [
     {
       "authentication": {
-        "api_token": "{{ cloudflare_auth_token_ddns }}"
+        "api_token": "{{ cloudflare_api_token }}"
       },
       "zone_id": "{{ cloudflare_zone_id }}",
       "subdomains": [
@@ -13,6 +13,10 @@
         {
           "name": "mc",
           "proxied": false
+        },
+        {
+          "name": "auth",
+          "proxied": true
         },
         {
           "name": "cloud",

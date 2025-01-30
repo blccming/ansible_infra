@@ -17,6 +17,9 @@
     - role: containers
       tags:
         - containers
+    - role: mail_alerts
+      tags:
+        - mail_alerts
 
 - hosts: srv__rosa # x86_64; debian
   become: true
@@ -39,6 +42,9 @@
     - role: containers
       tags:
         - containers
+    - role: mail_alerts
+      tags:
+        - mail_alerts
 
 - hosts: test_host
   become: true

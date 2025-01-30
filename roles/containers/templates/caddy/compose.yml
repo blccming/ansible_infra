@@ -19,5 +19,5 @@ services:
       - "{{ docker_dir }}/caddy/private/key.pem:/etc/ssl/private/key.pem"
     environment:
       - ACME_AGREE=true
-      - CLOUDFLARE_AUTH_TOKEN={{ cloudflare_auth_token_tls }}
+      - CLOUDFLARE_AUTH_TOKEN={{ cloudflare_api_token }}
     network_mode: host

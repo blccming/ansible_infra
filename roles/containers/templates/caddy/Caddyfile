@@ -235,7 +235,7 @@ auth.{{ domain_public }} {
 	}
 }
 
-dash.{{ domain_local }} {
+dash.{{ domain_local }} { # beszel
 	reverse_proxy 192.168.178.20:8090
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
