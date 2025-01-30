@@ -36,3 +36,9 @@
     owner: root
     group: root
     mode: "0644"
+
+- name: Create user bin directory
+  file:
+    path: "/home/{{ username }}/bin"
+    state: directory
+    mode: "0755"

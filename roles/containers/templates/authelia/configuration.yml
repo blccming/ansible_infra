@@ -31,11 +31,11 @@ server:
 
 totp:
   disable: false
-  issuer: "auth.{{ public_domain }}"
+  issuer: "auth.{{ domain_public }}"
 
 authentication_backend:
   ldap:
-    address: "ldap://127.0.0.1" # using local lldap
+    address: "ldap://lldap" # using local lldap
     implementation: "lldap"
     timeout: "5s"
     start_tls: false
@@ -45,7 +45,7 @@ authentication_backend:
     group_search_mode: "filter"
     permit_referrals: false
     permit_unauthenticated_bind: false
-    user: "CN=admin,DC={{ local_domain | split('.') | first }},DC={{ local_domain | split('.') | last }}"
+    user: "UID=admin,OU=people,DC={{ domain_local.split('.')[1] }},DC={{ domain_local.split('.')[2] }}"
 
 access_control:
   default_policy: deny
@@ -76,14 +76,13 @@ session:
   cookies:
     - name: "authelia_session"
       domain: "{{ domain_public }}"
-      authelia_url: "auth.{{ domain_public }}"
-      default_redirection_url: "{{ domain_public }}"
+      authelia_url: "https://auth.{{ domain_public }}"
+      default_redirection_url: "https://{{ domain_public }}"
       expiration: "3 hours"
       inactivity: "30 minutes"
-
-redis:
-  host: "redis"
-  port: 6379
+  redis:
+    host: "redis"
+    port: 6379
 
 regulation:
   max_retries: 5
@@ -93,3 +92,22 @@ regulation:
 storage:
   local:
     path: "/config/db.sqlite3"
+
+notifier:
+  smtp:
+    address: "smtp://smtp.resend.com"
+    timeout: "5s"
+    username: "resend"
+    password: "{{ mail_notification_api_key }}"
+    sender: "Authelia <authelia@notifier.{{ domain_public }}>"
+    subject: "🔑 Authelia: {title}"
+    disable_require_tls: false
+    disable_starttls: false
+    disable_html_emails: false
+
+ntp:
+  address: "udp://time.cloudflare.com:123"
+  version: 3
+  max_desync: "3s"
+  disable_startup_check: false
+  disable_failure: false

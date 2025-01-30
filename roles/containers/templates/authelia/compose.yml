@@ -4,9 +4,6 @@ services:
     container_name: "authelia"
     image: "docker.io/authelia/authelia:latest"
     restart: "unless-stopped"
-    networks:
-      net:
-        aliases: []
     environment:
       AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: "/secrets/JWT_SECRET"
       AUTHELIA_SESSION_SECRET_FILE: "/secrets/SESSION_SECRET"
@@ -15,19 +12,21 @@ services:
     volumes:
       - "{{ docker_dir }}/authelia/config:/config"
       - "{{ docker_dir }}/authelia/secrets:/secrets"
+    depends_on:
+      - lldap
+      - redis
 
   redis:
+    container_name: "authelia-redis"
     image: "redis:alpine"
-    container_name: "redis"
     volumes:
       - "{{ docker_dir }}/authelia/redis:/data"
-    networks:
-      net: {}
     restart: "unless-stopped"
     environment:
       TZ: "Europe/Berlin"
 
   lldap:
+    container_name: "authelia-lldap"
     image: lldap/lldap:stable
     restart: "unless-stopped"
     ports:
@@ -35,15 +34,9 @@ services:
     volumes:
       - "{{ docker_dir }}/lldap:/data"
       - "{{ docker_dir }}/authelia/secrets:/secrets"
-    networks:
-      net: {}
     environment:
       TZ: "Europe/Berlin"
       LLDAP_LDAP_BASE_DN: "DC={{ domain_local.split('.')[1] }},DC={{ domain_local.split('.')[2] }}"
       LLDAP_JWT_SECRET_FILE: "/secrets/JWT_SECRET"
       LLDAP_LDAP_USER_PASS_FILE: "/secrets/LDAP_PASSWORD"
-
-networks:
-  net:
-    external: true
-    name: "net"
+      LLDAP_LDAP_PORT: 389

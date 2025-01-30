@@ -1,8 +1,16 @@
 {
-	email example@example.com
+	email {{ caddy_acme_mail }}
 	acme_dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	order wake_on_lan before respond
+	servers {
+    	trusted_proxies cloudflare {
+            interval 12h
+            timeout 15s
+        }
+    }
 }
+
+
 
 cloud.{{ domain_public }} {
 	reverse_proxy 192.168.178.24:8080
@@ -229,7 +237,14 @@ piped.{{ domain_local }}, pipedapi.{{ domain_local }}, pipedproxy.{{ domain_loca
 }
 
 auth.{{ domain_public }} {
-	reverse_proxy 192.168.178.20:9091
+	reverse_proxy 192.168.178.20:9091 {
+        header_up X-Forwarded-Proto {http.request.header.X-Forwarded-Proto}
+        header_up X-Forwarded-Host {http.request.header.X-Forwarded-Host}
+        header_up X-Forwarded-URI {http.request.header.X-Forwarded-URI}
+        header_up X-Forwarded-For {http.request.header.X-Forwarded-For}
+        header_up X-Forwarded-Method {http.request.header.X-Forwarded-Method}
+        header_up X-Original-URL {http.request.header.X-Original-URL}
+	}
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}

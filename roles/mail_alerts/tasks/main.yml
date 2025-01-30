@@ -39,4 +39,4 @@
         name: zfs_keyfile_watch
         enabled: true
         state: started
-  when: disk_config | length > 0
+  when: disk_config is defined and disk_config | length > 0
