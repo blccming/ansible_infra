@@ -1,9 +1,16 @@
 ---
-- name: Update and upgrade packages
+- name: Update and upgrade packages on Debian/Ubuntu
   apt:
     update_cache: true
     upgrade: true
     autoremove: true
+  when: ansible_os_family == "Debian"
+
+- name: Update and upgrade packages on Fedora
+  dnf:
+    name: "*"
+    state: latest
+  when: ansible_os_family == "RedHat"
 
 - name: Check if reboot required
   stat:

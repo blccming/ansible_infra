@@ -1,0 +1,18 @@
+---
+- name: Install Flatpak if not already installed
+  dnf:
+    name: flatpak
+    state: present
+
+- name: Add Flathub repo
+  command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+- name: Install Flatseal packages
+  flatpak:
+    name: com.github.tchx84.Flatseal
+    state: present
+
+- name: Install selected Flatpak packages
+  flatpak:
+    name: "{{ flatpak_packages }}"
+    state: present

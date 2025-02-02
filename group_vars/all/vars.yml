@@ -3,7 +3,7 @@
 username: bloom
 hostname: "{{ inventory_hostname }}"
 
-# docker services
+# docker directories
 docker_dir: /opt/docker/data
 docker_compose_dir: /opt/docker/compose
 
@@ -17,3 +17,28 @@ security_fail2ban_enabled: true
 # network
 domain_public: blccm.ing
 domain_local: "lab.{{ domain_public }}"
+
+# package packs (flatpak)
+pkgs_flatpaks_office:
+  - app.zen_browser.zen
+  - dev.vencord.Vesktop
+  - md.obsidian.Obsidian
+  - org.keepassxc.KeePassXC
+  - org.localsend.localsend_app
+  - org.mozilla.Thunderbird
+  - org.onlyoffice.desktopeditors
+  - org.signal.Signal
+  - org.torproject.torbrowser-launcher
+
+pkgs_flatpak_dev:
+  - com.visualstudio.code-oss
+  - dev.zed.Zed
+
+pkgs_flatpak_media:
+  - org.gimp.GIMP
+  - org.videolan.VLC
+
+pkgs_flatpak_media_ext:
+  - com.obsproject.Studio
+  - com.transmissionbt.Transmission
+  - org.nicotine_plus.Nicotine

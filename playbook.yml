@@ -1,5 +1,5 @@
 ---
-- hosts: srv_clara # raspberry pi; raspbian
+- hosts: srv_clara # server; raspberry pi; raspbian
   become: true
   roles:
     - role: system
@@ -21,7 +21,7 @@
       tags:
         - mail_alerts
 
-- hosts: srv__rosa # x86_64; debian
+- hosts: srv_rosa # server; x86_64; debian
   become: true
   roles:
     - role: system
@@ -45,6 +45,32 @@
     - role: mail_alerts
       tags:
         - mail_alerts
+
+- hosts: pc_karl # workstation, x86_64; fedora
+  become: true
+  roles:
+    - role: system
+      tags:
+        - system
+    - role: desktop_suite
+      tags:
+        - desktop_suite
+    - role: geerlingguy.docker
+      tags:
+        - docker
+
+- hosts: pc_rudi # notebook, x86_64; fedora
+  become: true
+  roles:
+    - role: system
+      tags:
+        - system
+    - role: desktop_suite
+      tags:
+        - desktop_suite
+    - role: geerlingguy.docker
+      tags:
+        - docker
 
 - hosts: test_host
   become: true

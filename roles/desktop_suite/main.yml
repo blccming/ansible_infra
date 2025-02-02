@@ -1,0 +1,6 @@
+---
+- include_tasks:
+    - flatpak.yml
+    - syncthing.yml
+    - cli.yml
+    - mullvad.yml

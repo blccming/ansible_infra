@@ -1,0 +1,17 @@
+---
+- name: Install Syncthing package
+  dnf:
+    name: syncthing
+    state: present
+
+- name: Create autostart directory
+  file:
+    path: ~/.config/autostart
+    state: directory
+    mode: "0755"
+
+- name: Copy syncthing-start.desktop to autostart
+  copy:
+    src: "/usr/share/applications/syncthing-start.desktop"
+    dest: "/home/{{ username }}/.config/autostart/syncthing-start.desktop"
+    mode: "0644"
