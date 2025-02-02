@@ -243,7 +243,7 @@ auth.{{ domain_public }} {
         header_up X-Forwarded-URI {http.request.header.X-Forwarded-URI}
         header_up X-Forwarded-For {http.request.header.X-Forwarded-For}
         header_up X-Forwarded-Method {http.request.header.X-Forwarded-Method}
-        header_up X-Original-URL {http.request.header.X-Original-URL}
+        header_up X-Original-URL {scheme}://{host}{uri}
 	}
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}

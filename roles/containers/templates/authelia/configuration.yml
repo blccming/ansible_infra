@@ -1,33 +1,10 @@
+---
 server:
   address: "tcp://:9091"
   endpoints:
     authz:
       forward-auth:
         implementation: "ForwardAuth"
-        authn_strategies:
-          - name: "HeaderAuthorization"
-            schemes:
-              - "Basic"
-          - name: "CookieSession"
-      ext-authz:
-        implementation: "ExtAuthz"
-        authn_strategies:
-          - name: "HeaderAuthorization"
-            schemes:
-              - "Basic"
-          - name: "CookieSession"
-      auth-request:
-        implementation: "AuthRequest"
-        authn_strategies:
-          - name: "HeaderAuthorization"
-            schemes:
-              - "Basic"
-          - name: "CookieSession"
-      legacy:
-        implementation: "Legacy"
-        authn_strategies:
-          - name: "HeaderLegacy"
-          - name: "CookieSession"
 
 totp:
   disable: false
@@ -74,10 +51,10 @@ access_control:
 
 session:
   cookies:
-    - name: "authelia_session"
-      domain: "{{ domain_public }}"
+    - domain: "{{ domain_public }}"
       authelia_url: "https://auth.{{ domain_public }}"
-      default_redirection_url: "https://{{ domain_public }}"
+      default_redirection_url: "https://www.{{ domain_public }}"
+      name: "authelia_session"
       expiration: "3 hours"
       inactivity: "30 minutes"
   redis:

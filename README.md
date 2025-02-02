@@ -23,7 +23,8 @@ sh run.sh
 ```
 
 > [!IMPORTANT]
-> When running Authelia behind a cloud proxy (e.g. cloudflare) make sure to [remove the X-Forwarded-For header](https://www.authelia.com/integration/proxies/forwarded-headers/).
+> When running Authelia behind a cloud proxy (e.g. Cloudflare) make sure to [remove the X-Forwarded-For header](https://www.authelia.com/integration/proxies/forwarded-headers/).
+> If you are using Cloudflare, use the TLS encryption mode "Full" or "Full (strict)"!
 > Also, make sure to disable DNS rebind protection in your router, in order to reach domains that point to local IP addresses.
 
 ## Edit secrets

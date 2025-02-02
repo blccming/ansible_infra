@@ -4,6 +4,8 @@ services:
     container_name: "authelia"
     image: "docker.io/authelia/authelia:latest"
     restart: "unless-stopped"
+    ports:
+      - "9091:9091"
     environment:
       AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: "/secrets/JWT_SECRET"
       AUTHELIA_SESSION_SECRET_FILE: "/secrets/SESSION_SECRET"
