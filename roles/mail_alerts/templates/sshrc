@@ -3,6 +3,6 @@ CURRENT_TIME=$(date +"%Y-%m-%dT%H:%M:%S %Z")
 
 logger -t ssh-wrapper $USER login from $LOGIN_IP
 
-/home/{{ hostname }}/bin/send_notification_mail.sh \
+/home/{{ username }}/bin/send_notification_mail.sh \
     "⚠️ {{ hostname }}: New SSH login" \
-    "$USER logged in from <strong>$LOGIN_IP</strong> at <strong>$CURRENT_TIME</strong>" &
+    "$USER logged in from <strong>$LOGIN_IP</strong> at <strong>$CURRENT_TIME</strong>." &
