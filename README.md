@@ -3,6 +3,9 @@
 This playbook is used to manage my personal infrastructure with IaC via Ansible.
 
 ## Run the playbook
+0. Configure the ansible vault, see the [Edit secrets section](#edit-secrets).
+If needed, create `roles/containers/templates/torrenting/custom.ovpn` with your OpenVPN configuration, see the [gluetun guide](https://github.com/qdm12/gluetun-wiki/blob/main/setup/openvpn-configuration-file.md).
+
 
 1. Create ssh key and copy the key to the server
 ```bash
@@ -29,10 +32,10 @@ sh run.sh
 
 ## Edit secrets
 
-1. Create .vault_pass and paste the password into it
+1. Create .vault_pass and paste the password into it, if not already done
 
 
-2. Use ansible-vault to edit `./group_vars/all/secrets.yml`
+2. Use ansible-vault to edit `group_vars/all/secrets.yml`
 ```bash
 ansible-vault edit --vault-password-file=.vault_pass ./group_vars/all/secrets.yml
 ```
