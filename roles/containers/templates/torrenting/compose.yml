@@ -7,11 +7,18 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
-      - VPN_SERVICE_PROVIDER=mullvad
-      - VPN_TYPE=openvpn
-      - OPENVPN_USER="{{ mullvad_user }}""
-      - SERVER_COUNTRIES=Germany,France,Austria
-      - OWNED_ONLY=yes
+      # for mullvad
+      # - VPN_SERVICE_PROVIDER=mullvad
+      # - VPN_TYPE=openvpn
+      # - OPENVPN_USER="{{ mullvad_user }}""
+      # - SERVER_COUNTRIES=Germany,France,Austria
+      # - OWNED_ONLY=yes
+      - VPN_SERVICE_PROVIDER=custom
+      - OPENVPN_CUSTOM_CONFIG=/glueton/custom.ovpn
+      - OPENVPN_USER={{ OPENVPN_USER }}
+      - OPENVPN_PASSWORD={{ OPENVPN_PASSWORD }}
+    volumes:
+      - "{{ docker_dir }}/gluetun/config/custom.ovpn:/gluetun/custom.ovpn"
     ports:
       - 9191:9191 # transmission
       - 9696:9696 # prowlarr

@@ -33,6 +33,7 @@ services:
     restart: "unless-stopped"
     ports:
       - "17170:17170" # web ui
+      - "389:389" # ldap
     volumes:
       - "{{ docker_dir }}/lldap:/data"
       - "{{ docker_dir }}/authelia/secrets:/secrets"

@@ -3,6 +3,12 @@ rosa
 - make wwn a list to support more than one drive per pool
   - group_vars/srv_rosa/vars.yml
 
+clara
+- Authelia / OpenID Connect
+  - Jellyfin
+  - Immich
+  - Nextcloud
+
 #### personal computers (karl, rudi)
 - Gnome DE
   - Icons: https://github.com/somepaulo/MoreWaita

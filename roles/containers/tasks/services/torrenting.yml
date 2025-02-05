@@ -5,6 +5,7 @@
     state: directory
     mode: "0755"
   loop:
+    - "{{ docker_dir }}/gluetun/config"
     - "{{ docker_dir }}/transmission/data"
     - "{{ docker_dir }}/prowlarr/data"
     - "{{ docker_dir }}/sonarr/data"
@@ -19,4 +20,10 @@
   template:
     src: "{{ role_path }}/templates/torrenting/compose.yml"
     dest: "{{ docker_compose_dir }}/torrenting/compose.yml"
+    mode: "0755"
+
+- name: Copy custom.ovpn to target directory
+  template:
+    src: "{{ role_path }}/templates/torrenting/custom.ovpn"
+    dest: "{{ docker_dir }}/gluetun/config/custom.ovpn"
     mode: "0755"
