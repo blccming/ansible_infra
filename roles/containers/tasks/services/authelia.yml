@@ -8,7 +8,7 @@
     - "{{ docker_compose_dir }}/authelia"
     - "{{ docker_dir }}/authelia/config"
     - "{{ docker_dir }}/authelia/redis"
-    - "{{ docker_dir }}/authelia/secrets"
+    - "{{ docker_dir }}/authelia/secrets/oidc/jwks"
     - "{{ docker_dir }}/lldap"
   loop_control:
     loop_var: authelia_dir
@@ -47,4 +47,16 @@
   copy:
     content: "{{ authelia_ldap_password }}"
     dest: "{{ docker_dir }}/authelia/secrets/LDAP_PASSWORD"
+    mode: "0755"
+
+- name: Create Authelia HMAC_SECRET file
+  copy:
+    content: "{{ authelia_hmac_secret }}"
+    dest: "{{ docker_dir }}/authelia/secrets/HMAC_SECRET"
+    mode: "0755"
+
+- name: Copy JWKS key
+  template:
+    src: "{{ role_path }}/templates/authelia/rsa.2048.key"
+    dest: "{{ docker_dir }}/authelia/secrets/oidc/jwks/rsa.2048.key"
     mode: "0755"
