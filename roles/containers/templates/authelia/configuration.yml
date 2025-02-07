@@ -50,25 +50,71 @@ access_control:
     - domain: "cloud.{{ domain_public }}"
       policy: "two_factor"
     - domain: "fin.{{ domain_local }}"
-      policy: "one_factor"
+      policy: "two_factor"
     - domain: "imch.{{ domain_local }}"
-      policy: "one_factor"
+      policy: "two_factor"
     - domain: "sync.{{ domain_local }}"
       policy: "two_factor"
     - domain: "trans.{{ domain_local }}"
-      policy: "one_factor"
+      policy: "two_factor"
     - domain: "srr.{{ domain_local }}"
-      policy: "one_factor"
+      policy: "two_factor"
     - domain: "rrr.{{ domain_local }}"
-      policy: "one_factor"
+      policy: "two_factor"
     - domain: "prr.{{ domain_local }}"
-      policy: "one_factor"
+      policy: "two_factor"
     # piped, homarr, homeassistant
 
 identity_providers:
   oidc:
     jwks:
       - key: "{{ '{{' }} secret '/config/secrets/oidc/jwks/rsa.2048.key' | mindent(10) | msquote }}{{ '}}' }}"
+    clients:
+      - client_id: "{{ authelia_immich_cid }}" # immich
+        client_name: "Immich"
+        client_secret: "{{ authelia_immich_secret_hash }}"
+        public: false
+        authorization_policy: "two_factor"
+        require_pkce: true
+        redirect_uris:
+          - "https://imch.{{ domain_local }}/auth/login"
+          - "https://imch.{{ domain_local }}/user-settings"
+          - "app.immich:///oauth-callback"
+        scopes:
+          - "openid"
+          - "profile"
+          - "email"
+        userinfo_signed_response_alg: "none"
+      - client_id: "{{ authelia_jellyfin_cid }}" # jellyfin
+        client_name: "Jellyfin"
+        client_secret: "{{ authelia_jellyfin_secret_hash }}"
+        public: false
+        authorization_policy: "two_factor"
+        require_pkce: true
+        redirect_uris:
+          - "https://fin.{{ domain_local }}/sso/OID/redirect/authelia"
+        scopes:
+          - "openid"
+          - "profile"
+          - "groups"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_post"
+      - client_id: "{{ authelia_nextcloud_cid }}" # nextcloud
+        client_name: "Nextcloud"
+        client_secret: "{{ authelia_nextcloud_secret_hash }}"
+        public: false
+        authorization_policy: "two_factor"
+        require_pkce: true
+        pkce_challenge_method: "S256"
+        redirect_uris:
+          - "https://cloud.{{ domain_public }}/apps/oidc_login/oidc"
+        scopes:
+          - "openid"
+          - "profile"
+          - "email"
+          - "groups"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_basic"
 
 regulation:
   max_retries: 5
