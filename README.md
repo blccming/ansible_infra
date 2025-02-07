@@ -6,6 +6,7 @@ This playbook is used to manage my personal infrastructure with IaC via Ansible.
 0. Configure the ansible vault, see the [Edit secrets section](#edit-secrets).
 If needed, create `roles/containers/templates/torrenting/custom.ovpn` with your OpenVPN configuration, see the [gluetun guide](https://github.com/qdm12/gluetun-wiki/blob/main/setup/openvpn-configuration-file.md).
 Also, if using authelia, create `rsa.2048.key` in `roles/containers/templates/authelia/rsa.2048.key` using `openssl genrsa -out rsa.2048.key 2048`.
+Be aware that OpenID Connect as well as LDAP will need to be configured manually inside the respective client.
 
 
 1. Create ssh key and copy the key to the server
