@@ -3,6 +3,7 @@ services:
   caddy:
     build:
       dockerfile: "{{ docker_dir }}/caddy/Dockerfile"
+    container_name: caddy
     restart: unless-stopped
     ports:
       - "80:80"

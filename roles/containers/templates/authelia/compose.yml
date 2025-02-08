@@ -1,7 +1,7 @@
 ---
 services:
   authelia:
-    container_name: "authelia"
+    container_name: "authelia_app"
     image: "docker.io/authelia/authelia:latest"
     restart: "unless-stopped"
     ports:
@@ -20,7 +20,7 @@ services:
       - redis
 
   redis:
-    container_name: "authelia-redis"
+    container_name: "authelia_redis"
     image: "redis:alpine"
     volumes:
       - "{{ docker_dir }}/authelia/redis:/data"
@@ -29,7 +29,7 @@ services:
       TZ: "Europe/Berlin"
 
   lldap:
-    container_name: "authelia-lldap"
+    container_name: "authelia_lldap"
     image: lldap/lldap:stable
     restart: "unless-stopped"
     ports:

@@ -2,6 +2,7 @@
 services:
   gluetun:
     image: qmcgaw/gluetun
+    container_name: torrenting_gluetun
     cap_add:
       - NET_ADMIN
     devices:
@@ -26,7 +27,7 @@ services:
 
   transmission:
     image: lscr.io/linuxserver/transmission:latest
-    container_name: transmission
+    container_name: torrenting_transmission
     network_mode: gluetun
     environment:
       - PUID=1000
@@ -48,7 +49,7 @@ services:
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
-    container_name: prowlarr
+    container_name: torrenting_prowlarr
     network_mode: gluetun
     environment:
       - PUID=1000
@@ -67,7 +68,7 @@ services:
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
+    container_name: torrenting_sonarr
     environment:
       - PUID=1000
       - PGID=1000
@@ -87,7 +88,7 @@ services:
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
-    container_name: radarr
+    container_name: torrenting_ radarr
     environment:
       - PUID=1000
       - PGID=1000
@@ -107,7 +108,7 @@ services:
 
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr
-    container_name: recyclarr
+    container_name: torrenting_recyclarr
     user: 1000:1000
     volumes:
       - "{{ docker_dir }}/recyclarr/data:/config"

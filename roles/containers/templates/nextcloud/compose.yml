@@ -2,6 +2,7 @@
 services:
   redis:
     image: redis
+    container_name: nextcloud_redis
     restart: always
     command: redis-server --requirepass "{{ nextcloud_redis_password }}"
     ports:
@@ -9,6 +10,7 @@ services:
     network_mode: bridge
   db:
     image: mariadb:10.6
+    container_name: nextcloud_db
     restart: always
     command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
     volumes:
@@ -20,6 +22,7 @@ services:
       - MYSQL_USER=nextcloud
   app:
     image: nextcloud
+    container_name: nextcloud_app
     restart: always
     ports:
       - 8080:80

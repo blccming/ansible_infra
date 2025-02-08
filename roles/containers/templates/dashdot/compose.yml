@@ -3,6 +3,7 @@ services:
   dashdot:
     image: mauricenino/dashdot
     restart: unless-stopped
+    container_name: dashdot
     privileged: true
     ports:
       - "3001:3001"

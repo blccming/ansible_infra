@@ -27,6 +27,7 @@
     - services/nextcloud.yml
     - services/piped.yml
     - services/samba.yml
+    - services/scp-target.yml
     - services/syncthing.yml
     - services/torrenting.yml
     - services/watchtower.yml

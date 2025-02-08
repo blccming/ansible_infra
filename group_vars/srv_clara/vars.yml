@@ -6,8 +6,8 @@ extra_packages:
 
 services:
   - authelia
-  - beszel_agent
-  - beszel_hub
+  - beszel-agent
+  - beszel-hub
   - caddy
   - cloudflare-ddns
   - homarr

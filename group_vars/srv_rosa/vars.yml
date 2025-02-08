@@ -6,7 +6,7 @@ extra_packages:
 
 services:
   - cryptgeon
-  - beszel_agent
+  - beszel-agent
   - immich
   - jellyfin
   - nextcloud
