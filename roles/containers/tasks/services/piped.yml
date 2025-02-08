@@ -26,7 +26,7 @@
     src: "{{ role_path }}/templates/piped/config/{{ item }}"
     dest: "{{ docker_dir }}/piped/config{{ item }}"
     mode: "0755"
-  with_items: "{{ found_files.files | map(attribute='path' | map('basename') | list }}"
+  with_items: "{{ found_files.files | map(attribute='path') | map('basename') | list }}"
 
 - name: Copy Piped feed update script to bin directory
   template:

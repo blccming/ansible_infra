@@ -13,7 +13,9 @@
     group: root
     mode: "0644"
 
-- block:
+- name: Configure watching over zfs key file
+  when: disk_config is defined and disk_config | length > 0
+  block:
     - name: Install inotify-tools (includes inotify-watch)
       apt:
         update_cache: true
@@ -39,4 +41,3 @@
         name: zfs_keyfile_watch
         enabled: true
         state: started
-  when: disk_config is defined and disk_config | length > 0

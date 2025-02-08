@@ -1,0 +1,12 @@
+extra_packages:
+  - *pkgs_dnf_dev
+  - *pkgs_dnf_gaming
+  - *pkgs_dnf_office
+
+flatpak_packages:
+ - *pkgs_flatpaks_office
+ - *pkgs_flatpak_dev
+ - *pkg_flatpak_gaming
+ - *pkgs_flatpak_gnome
+ - *pkgs_flatpak_media
+ - *pkgs_flatpak_media_ext

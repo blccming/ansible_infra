@@ -19,33 +19,36 @@
     formatting_allowed: "{{ allow_formatting_user_input.user_input | lower == 'y' }}"
 
 # Do overwrite
-- block:
-    - name: Ask for overwriting disks
+- name: Ask user for overwriting permission
+  when: formatting_allowed
+  changed_when: false
+  block:
+    - name: Send request
       pause:
         prompt: "WARNING: DATA LOSS.\n Do you want to overwrite the disks before formatting (y/n)?"
       register: do_overwrite_user_input
-      when: formatting_allowed
 
     - name: Set do_overwrite fact based on user input
       set_fact:
         do_overwrite: "{{ do_overwrite_user_input.user_input | lower == 'y' }}"
-      when: formatting_allowed
-  when: formatting_allowed
 
-- block:
-    - name: Overwrite disks
+- name: Overwriting disks
+  when: do_overwrite and formatting_allowed
+  block:
+    - name: Overwriting the disks with /dev/zero
       command: dd if=/dev/zero of=/dev/{{ item.device }} bs=1M status=progress
       loop: "{{ disk_mapping }}"
       when: item.wwn in disk_mapping | map(attribute='wwn') | list
       register: overwrite_results
+      changed_when: false
 
     - name: Display overwriting results
       debug:
         var: overwrite_results
-  when: do_overwrite and formatting_allowed
 
-# Create ZFS pools (RAID-Z)
-- block:
+- name: Create ZFS pools (RAID-Z)
+  when: formatting_allowed
+  block:
     - name: Create keyfile directory
       file:
         path: "/etc/zfs_keys"
@@ -59,6 +62,11 @@
         owner: root
         group: root
         mode: "0600"
+
+    - name: Get zpool status
+      command: zpool status
+      register: zpool_status
+      changed_when: false
 
     - name: Create ZFS pools
       command: >-
@@ -76,9 +84,21 @@
         {{ item.name }} raidz {{ item.wwn }}
       loop: "{{ disk_config }}"
       when: item.wwn in disk_mapping | map(attribute='wwn') | list
+      changed_when: zpool_status.stdout | length > 20
 
-    - name: Create ZFS datasets
-      command: zfs create {{ item.name }}/{{ item.name }}_data
+    - name: Create mount points
+      file:
+        path: "{{ item.mountpoint }}"
+        state: directory
+        mode: "0755"
+      loop: "{{ disk_config }}"
+
+    - name: Create ZFS datasets and mount them
+      community.general.zfs:
+        name: "{{ item.name }}/{{ item.name }}_data"
+        extra_zfs_properties:
+          mountpoint: "{{ item.mountpoint }}"
+        state: present
       loop: "{{ disk_config }}"
       when: item.wwn in disk_mapping | map(attribute='wwn') | list
 
@@ -90,22 +110,6 @@
     - name: Show zpool status
       debug:
         var: zpool_status
-
-    # Create mount points
-    - name: Create mount points
-      file:
-        path: "{{ item.mountpoint }}"
-        state: directory
-        mode: "0755"
-      loop: "{{ disk_config }}"
-
-    # Mount ZFS pools
-    - name: Mount ZFS pools
-      command: zfs set mountpoint={{ item.mountpoint }} {{ item.name }}/{{ item.name }}_data
-      loop: "{{ disk_config }}"
-      when: item.wwn in disk_mapping | map(attribute='wwn') | list
-
-  when: formatting_allowed
 
 # Formatting cancelled
 - name: Display formatting not proceeding

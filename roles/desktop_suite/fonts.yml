@@ -1,0 +1,47 @@
+---
+- name: Installing Microsoft core fonts
+  block:
+    - name: Installing required packages
+      dnf:
+        name:
+          - curl
+          - cabextract
+          - xorg-x11-font-utils
+          - fontconfig
+        state: present
+
+    - name: Install corefonts package
+      dnf:
+        name: "https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm"
+        state: present
+
+- name: Install Jetbrains Mono Nerd Font
+  block:
+    - name: Download .tff
+      get_url:
+        url: "https://github.com/ryanoasis/nerd-fonts/raw/refs/heads/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFontMono-Regular.ttf"
+        dest: "/tmp/JetBrainsMonoNerdFontMono-Regular.ttf"
+
+    - name: Create font directory
+      file:
+        path: "/usr/share/fonts/truetype/JetBrainsMono"
+        state: directory
+        mode: "0755"
+
+    - name: Copy .tff to directory
+      copy:
+        src: "/tmp/JetBrainsMonoNerdFontMono-Regular.ttf"
+        dest: "/usr/share/fonts/truetype/JetBrainsMono/JetBrainsMonoNerdFontMono-Regular.ttf"
+        mode: "0644"
+
+    - name: Update font cache
+      command: fc-cache -f -v
+
+- name: Installing remaining fonts
+  dnf:
+    name:
+      - comic-neue-fonts
+      - default-fonts-cjk
+      - google-arimo-fonts
+      - google-roboto-fonts
+    state: present

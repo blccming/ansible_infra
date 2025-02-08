@@ -1,2 +1,34 @@
 ---
-- include_tasks: cronjobs.yml
+- name: Configure automatic supension if requests in autosuspend variable
+  when: autosuspend | bool
+  block:
+    - name: Add automatic suspend to cron (daily hourly from 00:00 to 09:00)
+      cron:
+        name: "Hourly suspend from 0:00 to 09:00"
+        minute: "0"
+        hour: "0-9"
+        job: "systemctl suspend"
+        state: present
+
+    - name: Add automatic suspend to cron (Mo to Fr hourly from 21:00 to 23:00)
+      cron:
+        name: "Hourly suspend from 21:00 to 23:00"
+        minute: "0"
+        hour: "21-13"
+        day: "*"
+        month: "*"
+        weekday: "1-4"
+        job: "systemctl suspend"
+        state: present
+
+- name: Install powertop
+  apt:
+    name: powertop
+    state: present
+
+- name: Add powertop autotune to cron (@reboot)
+  cron:
+    name: "powertop autotune"
+    special_time: reboot
+    job: "powertop --auto-tune"
+    state: present

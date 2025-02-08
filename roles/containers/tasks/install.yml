@@ -12,7 +12,7 @@
 
 - name: Install selected services
   include_tasks: "{{ item }}"
-  when: "'{{ item.split('/')[-1].split('.')[0] }}' in services"
+  when: item.split('/')[-1].split('.')[0] in services
   loop:
     - services/authelia.yml
     - services/beszel_agent.yml
@@ -38,7 +38,7 @@
     file_type: directory
   register: subdirectories
 
-- name: docker compose up for every subdirectory
+- name: Do docker compose up for every subdirectory
   community.docker.docker_compose_v2:
     project_src: "{{ item.path }}"
     build: always

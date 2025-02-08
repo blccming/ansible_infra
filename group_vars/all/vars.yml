@@ -34,11 +34,33 @@ pkgs_flatpak_dev:
   - com.visualstudio.code-oss
   - dev.zed.Zed
 
+pkg_flatpak_gaming:
+  - com.usebottles.bottles
+  - org.prismlauncher.PrismLauncher
+
+pkgs_flatpak_gnome:
+  - com.mattjakeman.ExtensionManager
+  - page.tesk.Refine
+
 pkgs_flatpak_media:
   - org.gimp.GIMP
   - org.videolan.VLC
+  - io.github.josephmawa.Bella
 
 pkgs_flatpak_media_ext:
   - com.obsproject.Studio
   - com.transmissionbt.Transmission
+  - org.audacityteam.Audacity
   - org.nicotine_plus.Nicotine
+
+# package packs (dnf)
+pkgs_dnf_dev:
+  - git
+  - python3
+
+pkgs_dnf_gaming:
+  - steam
+
+pkgs_dnf_office:
+  - gnuplot
+  - texlive-scheme-full

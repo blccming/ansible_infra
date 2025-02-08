@@ -1,0 +1,17 @@
+---
+- name: Install virtualization group
+  dnf:
+    name: "@virtualization"
+    state: present
+
+- name: Enable libvirtd service
+  systemd:
+    name: libvirtd
+    enabled: true
+    state: started
+
+- name: Add user to libvirt group (restart required to take effect)
+  user:
+    name: "{{ username }}"
+    groups: libvirt
+    append: yes

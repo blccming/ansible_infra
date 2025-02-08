@@ -1,6 +1,8 @@
 ---
 - include_tasks:
-    - flatpak.yml
-    - syncthing.yml
     - cli.yml
+    - flatpak.yml
+    - fonts.yml
     - mullvad.yml
+    - syncthing.yml
+    - virt-manager.yml

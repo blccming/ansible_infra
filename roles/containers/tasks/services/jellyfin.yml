@@ -23,5 +23,3 @@
     src: "{{ role_path }}/templates/jellyfin/compose.yml"
     dest: "{{ docker_compose_dir }}/jellyfin/compose.yml"
     mode: "0755"
-  vars:
-    - gid_render: "{{ gid_render }}"

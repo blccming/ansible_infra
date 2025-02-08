@@ -1,5 +1,6 @@
 ---
-- hosts: srv_clara # server; raspberry pi; raspbian
+- name: "Deployment: clara; server; raspberry pi; raspbian"
+  hosts: srv_clara
   become: true
   roles:
     - role: system
@@ -21,7 +22,8 @@
       tags:
         - mail_alerts
 
-- hosts: srv_rosa # server; x86_64; debian
+- name: "Deployment: rosa; server; x86_64; debian"
+  hosts: srv_rosa
   become: true
   roles:
     - role: system
@@ -46,7 +48,8 @@
       tags:
         - mail_alerts
 
-- hosts: pc_karl # workstation, x86_64; fedora
+- name: "Deployment: karl; workstation, x86_64; fedora"
+  hosts: pc_karl
   become: true
   roles:
     - role: system
@@ -59,7 +62,8 @@
       tags:
         - docker
 
-- hosts: pc_rudi # notebook, x86_64; fedora
+- name: "Deployment: rudi; notebook, x86_64; fedora"
+  hosts: pc_rudi
   become: true
   roles:
     - role: system
@@ -72,7 +76,8 @@
       tags:
         - docker
 
-- hosts: test_host
+- name: "Deployment: test host; local vm"
+  hosts: test_host
   become: true
   roles:
     - role: storageconf
