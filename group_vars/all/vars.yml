@@ -23,6 +23,7 @@ pkgs_flatpaks_office:
   - app.zen_browser.zen
   - dev.vencord.Vesktop
   - md.obsidian.Obsidian
+  - net.ankiweb.Anki
   - org.keepassxc.KeePassXC
   - org.localsend.localsend_app
   - org.mozilla.Thunderbird
