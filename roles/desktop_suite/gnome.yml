@@ -26,7 +26,7 @@
 
 - name: Install cursor (bibata)
   block:
-    - name: Enable the DNF COPR repository
+    - name: Enable the dnf copr repository
       dnf:
         name: peterwu/rendezvous
         state: present
@@ -38,7 +38,7 @@
 
 - name: Install icon pack (morewaita)
   block:
-    - name: Enable the DNF COPR repository
+    - name: Enable the dnf copr repository
       dnf:
         name: dusansimic/themes
         state: present

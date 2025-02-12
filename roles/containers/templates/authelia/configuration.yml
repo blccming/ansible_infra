@@ -66,9 +66,10 @@ access_control:
     # piped, homarr, homeassistant
 
 identity_providers:
-  oidc:
-    jwks:
-      - key: "{{ '{{' }} secret '/config/secrets/oidc/jwks/rsa.2048.key' | mindent(10) | msquote }}{{ '}}' }}"
+  oidc: # DO NOT CHANGE: the following raw operator has to be placed like this in order for the file to be formatted correctly
+    jwks: {% raw %}
+      - key: {{ secret "/secrets/oidc/jwks/rsa.2048.key" | mindent 10 "|" | msquote }}
+{% endraw %}
     clients:
       - client_id: "{{ authelia_immich_cid }}" # immich
         client_name: "Immich"

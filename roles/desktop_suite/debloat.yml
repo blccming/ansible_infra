@@ -5,6 +5,8 @@
       - anaconda
       - gnome-contacts
       - gnome-maps
+      - gnome-system-monitor
+      - gnome-terminal
       - gnome-tour
       - libreoffice-core
       - mediawriter

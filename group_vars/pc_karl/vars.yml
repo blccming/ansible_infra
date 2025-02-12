@@ -1,6 +1,5 @@
 extra_packages:
   - *pkgs_dnf_dev
-  - *pkgs_dnf_gaming
   - *pkgs_dnf_office
 
 flatpak_packages:

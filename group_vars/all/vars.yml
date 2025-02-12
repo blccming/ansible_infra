@@ -32,15 +32,21 @@ pkgs_flatpaks_office:
   - org.torproject.torbrowser-launcher
 
 pkgs_flatpak_dev:
+  - cc.arduino.IDE2
+  - com.emqx.MQTTX
   - com.visualstudio.code-oss
   - dev.zed.Zed
+  - org.raspberrypi.rpi-imager
 
 pkg_flatpak_gaming:
   - com.usebottles.bottles
+  - com.valvesoftware.Steam
   - org.prismlauncher.PrismLauncher
 
 pkgs_flatpak_gnome:
   - com.mattjakeman.ExtensionManager
+  - com.raggesilver.BlackBox
+  - io.missioncenter.MissionCenter
   - page.tesk.Refine
 
 pkgs_flatpak_media:
@@ -58,9 +64,6 @@ pkgs_flatpak_media_ext:
 pkgs_dnf_dev:
   - git
   - python3
-
-pkgs_dnf_gaming:
-  - steam
 
 pkgs_dnf_office:
   - gnuplot

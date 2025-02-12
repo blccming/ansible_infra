@@ -15,8 +15,8 @@
   when: item.split('/')[-1].split('.')[0] in services
   loop:
     - services/authelia.yml
-    - services/beszel_agent.yml
-    - services/beszel_hub.yml
+    - services/beszel-agent.yml
+    - services/beszel-hub.yml
     - services/caddy.yml
     - services/cloudflare-ddns.yml
     - services/dashdot.yml
@@ -38,7 +38,7 @@
     file_type: directory
   register: subdirectories
 
-- name: Do docker compose up for every subdirectory
+- name: Start every container that exists on host
   community.docker.docker_compose_v2:
     project_src: "{{ item.path }}"
     build: always
