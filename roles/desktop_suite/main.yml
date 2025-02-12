@@ -1,5 +1,6 @@
 ---
 - include_tasks:
+    - debloat.yml
     - cli.yml
     - flatpak.yml
     - fonts.yml

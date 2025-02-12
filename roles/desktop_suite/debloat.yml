@@ -1,0 +1,15 @@
+---
+- name: Debloating (uninstalling unused apps)
+  dnf:
+    name:
+      - anaconda
+      - gnome-contacts
+      - gnome-maps
+      - gnome-tour
+      - libreoffice-core
+      - mediawriter
+      - rythmbox
+      - totem
+      - unoconv
+      - yelp
+    state: absent
