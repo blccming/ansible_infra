@@ -20,6 +20,7 @@ services:
       - MYSQL_PASSWORD="{{ nextcloud_mysql_password }}"
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
+
   app:
     image: nextcloud
     container_name: nextcloud_app
@@ -30,7 +31,7 @@ services:
       - db
       - redis
     volumes:
-      - "{{ nas_mount }}/nextcloud_data:/var/www/html/data"
+      - "{{ nas_mount }}/apps/nextcloud_data:/var/www/html/data"
       - "{{ docker_dir }}/nextcloud/config:/var/www/html"
       - "{{ docker_dir }}/nextcloud/config/php-local.ini:/usr/local/etc/php/php-local.ini"
     environment:

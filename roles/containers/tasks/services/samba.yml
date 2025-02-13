@@ -20,3 +20,9 @@
   fail:
     masg: "The directory {{ nas_mount }} does not exist. Make sure the drive is mounted and formatted properly!"
   when: not dir_stat.stat.exists
+
+- name: Create smb directory
+  file:
+    path: "{{ nas_mount }}/smb"
+    state: directory
+    mode: "0755"

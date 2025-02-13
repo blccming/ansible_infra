@@ -81,7 +81,9 @@
         -o encryption=aes-256-gcm
         -o keylocation=file:///etc/zfs_keys/keyfile
         -o keyformat=raw
-        {{ item.name }} raidz {{ item.wwn }}
+        {{ item.name }}
+        {{ 'raidz' if item.name == 'naspool' else '' }}
+        {{ item.wwn }}
       loop: "{{ disk_config }}"
       when: item.wwn in disk_mapping | map(attribute='wwn') | list
       changed_when: zpool_status.stdout | length > 20

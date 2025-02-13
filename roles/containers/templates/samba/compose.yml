@@ -10,5 +10,5 @@ services:
     ports:
       - 445:445
     volumes:
-      - "{{ nas_mount }}:/storage"
+      - "{{ nas_mount }}/smb:/storage"
     restart: unless-stopped

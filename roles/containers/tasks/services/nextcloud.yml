@@ -8,7 +8,7 @@
     - "{{ docker_compose_dir }}/nextcloud"
     - "{{ docker_dir }}/nextcloud/config"
     - "{{ docker_dir }}/nextcloud/db"
-    - "{{ nas_mount }}/nextcloud_data"
+    - "{{ nas_mount }}/apps/nextcloud_data"
 
 - name: Copy Nextcloud compose file
   template:
