@@ -8,8 +8,8 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - "{{ nas_mount }}/personal:/var/syncthing"
-      - "{{ docker_dir}}/syncthing/config:/config"
+      - "{{ docker_dir }}/syncthing:/var/syncthing"
+      - "{{ nas_mount }}/personal/Synced:/nas"
     ports:
       - 8384:8384 # Web UI
       - 22000:22000/tcp # TCP file transfers

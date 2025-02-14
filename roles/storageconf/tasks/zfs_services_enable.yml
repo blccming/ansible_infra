@@ -1,4 +1,15 @@
 ---
+- name: Enable zfs services
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - zfs.target
+    - zfs-import-cache
+    - zfs-import
+    - zfs-mount
+
 - name: Enable zfs-load-key service
   block:
     - name: Check if zfs-load-key service is masked
@@ -20,12 +31,6 @@
         masked: false
         state: started
         enabled: true
-
-- name: Enable zfs-mount service
-  systemd:
-    name: zfs-mount
-    enabled: true
-    state: started
 
 - name: Copy ZFS backup script to bin directory
   template:

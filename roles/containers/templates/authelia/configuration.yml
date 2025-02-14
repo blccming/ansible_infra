@@ -60,23 +60,23 @@ access_control:
     - domain: "sync.{{ domain_local }}"
       policy: "two_factor"
       subject:
-        - ['group:admins']
+        - ['group:admin']
     - domain: "trans.{{ domain_local }}"
       policy: "two_factor"
       subject:
-        - ['group:admins']
+        - ['group:admin']
     - domain: "srr.{{ domain_local }}"
       policy: "two_factor"
       subject:
-        - ['group:admins']
+        - ['group:admin']
     - domain: "rrr.{{ domain_local }}"
       policy: "two_factor"
       subject:
-        - ['group:admins']
+        - ['group:admin']
     - domain: "prr.{{ domain_local }}"
       policy: "two_factor"
       subject:
-        - ['group:admins']
+        - ['group:admin']
 
 
 
@@ -147,7 +147,9 @@ notifier:
     subject: "🔑 Authelia: {title}"
     disable_require_tls: false
     disable_starttls: false
-    disable_html_emails: false
+    disable_html_emails: true
+# filesystem:
+#   filename: "/config/notification.txt"
 
 ntp:
   address: "udp://time.cloudflare.com:123"

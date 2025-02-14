@@ -7,9 +7,9 @@
 
 - name: Create Syncthing config directory
   file:
-    path: "{{ docker_compose_dir }}/syncthing/config"
+    path: "{{ docker_dir }}/syncthing"
     state: directory
-    mode: "0755"
+    mode: "0777"
 
 - name: Copy Syncthing compose file
   template:
@@ -29,6 +29,6 @@
 
 - name: Create personal directory that will be used for Syncthing
   file:
-    path: "{{ nas_mount }}/personal"
+    path: "{{ nas_mount }}/personal/Synced"
     state: directory
     mode: "0755"
