@@ -3,6 +3,9 @@
   hosts: srv_clara
   become: true
   roles:
+    - role: mail_alerts_disable
+      tags:
+        - mail_alerts_disable
     - role: system
       tags:
         - system
@@ -26,6 +29,9 @@
   hosts: srv_rosa
   become: true
   roles:
+    - role: mail_alerts_disable
+      tags:
+        - mail_alerts_disable
     - role: system
       tags:
         - system

@@ -1,3 +1,4 @@
+---
 extra_packages:
   - *pkgs_dnf_dev
   - *pkgs_dnf_office

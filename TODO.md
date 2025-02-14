@@ -5,4 +5,3 @@ rosa
 
 #### personal computers (karl, rudi)
 - gpg key for git/github (use ansible secrets)
-- add samba share

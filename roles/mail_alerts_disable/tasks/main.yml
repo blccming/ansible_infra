@@ -1,0 +1,11 @@
+---
+- name: Check if the notification script exists
+  stat:
+    path: "/home/{{ username }}/bin/send_notification_mail.sh"
+  register: mail_script_exists
+
+- name: Disable mail alerts by changing permissions
+  file:
+    path: "/home/{{ username }}/bin/send_notification_mail.sh"
+    mode: "0000"
+  when: mail_script_exists.stat.exists
