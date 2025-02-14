@@ -1,20 +1,29 @@
 ---
-- name: Create necessary directories
+- name: Create necessary directories (read only)
   file:
     path: "{{ item }}"
     state: directory
     mode: "0755"
   loop:
     - "{{ docker_dir }}/gluetun/config"
-    - "{{ docker_dir }}/transmission/data"
     - "{{ docker_dir }}/prowlarr/data"
     - "{{ docker_dir }}/sonarr/data"
     - "{{ docker_dir }}/radarr/data"
     - "{{ docker_dir }}/recyclarr/data"
     - "{{ docker_compose_dir }}/torrenting"
+
+- name: Create necessary directories (read-write)
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0777"
+  loop:
+    - "{{ docker_dir }}/transmission/data"
+    - "{{ docker_compose_dir }}/torrenting"
     - "{{ mergerfs_media_dir }}/shows"
     - "{{ mergerfs_media_dir }}/movies"
-    - "{{ mergerfs_media_dir }}/downloads"
+    - "{{ mergerfs_media_dir }}/downloads/complete"
+    - "{{ mergerfs_media_dir }}/downloads/incomplete"
 
 - name: Copy torrenting compose file
   template:

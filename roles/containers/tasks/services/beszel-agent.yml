@@ -11,6 +11,12 @@
     dest: "{{ docker_compose_dir }}/beszel-agent/compose.yml"
     mode: "0755"
 
+- name: Create .env file for Beszel Agent
+  file:
+    path: "{{ docker_compose_dir }}/beszel-agent/.env"
+    state: touch
+    mode: "0755"
+
 - name: Create .beszel directories for disk monitoring
   file:
     path: "{{ item.mountpoint }}/.beszel"

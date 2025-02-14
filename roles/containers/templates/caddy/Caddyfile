@@ -156,7 +156,7 @@ trans.{{ domain_local }} {
 }
 
 srr.{{ domain_local }} {
-	reverse_proxy 192.168.178.24:9130
+	reverse_proxy 192.168.178.24:8989
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
@@ -168,7 +168,7 @@ srr.{{ domain_local }} {
 		@502 expression {err.status_code} == 502
 		handle @502 {
 			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
-			reverse_proxy 192.168.178.24:9130 {
+			reverse_proxy 192.168.178.24:8989 {
 				lb_try_duration 60s
 			}
 		}
@@ -176,7 +176,7 @@ srr.{{ domain_local }} {
 }
 
 rrr.{{ domain_local }} {
-	reverse_proxy 192.168.178.24:9140
+	reverse_proxy 192.168.178.24:7878
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
@@ -188,7 +188,7 @@ rrr.{{ domain_local }} {
 		@502 expression {err.status_code} == 502
 		handle @502 {
 			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
-			reverse_proxy 192.168.178.24:9140 {
+			reverse_proxy 192.168.178.24:7878 {
 				lb_try_duration 60s
 			}
 		}

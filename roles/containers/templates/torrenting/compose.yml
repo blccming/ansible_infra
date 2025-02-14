@@ -15,13 +15,14 @@ services:
       # - SERVER_COUNTRIES=Germany,France,Austria
       # - OWNED_ONLY=yes
       - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=openvpn
       - OPENVPN_CUSTOM_CONFIG=/gluetun/custom.ovpn
       - OPENVPN_USER={{ openvpn_user }}
       - OPENVPN_PASSWORD={{ openvpn_password }}
     volumes:
       - "{{ docker_dir }}/gluetun/config/custom.ovpn:/gluetun/custom.ovpn"
     ports:
-      - 9191:9191 # transmission web
+      - 9191:9091 # transmission web
       - 443:443 # transmission bittorrent
       - 443:443/udp # transmission bittorrent
       - 9696:9696 # prowlarr
@@ -35,6 +36,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
+      - PEERPORT=443
     volumes:
       - "{{ docker_dir }}/transmission/data:/config"
       - "{{ mergerfs_media_dir }}/downloads:/downloads"
