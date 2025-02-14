@@ -6,9 +6,6 @@
     - role: system
       tags:
         - system
-    - role: srv_cronjobs
-      tags:
-        - srv_cronjobs
     - role: geerlingguy.security
       tags:
         - security
@@ -18,6 +15,9 @@
     - role: containers
       tags:
         - containers
+    - role: srv_cronjobs
+      tags:
+        - srv_cronjobs
     - role: mail_alerts
       tags:
         - mail_alerts
@@ -29,9 +29,6 @@
     - role: system
       tags:
         - system
-    - role: srv_cronjobs
-      tags:
-        - srv_cronjobs
     - role: storageconf # disable, if needed
       tags:
         - storageconf
@@ -44,6 +41,9 @@
     - role: containers
       tags:
         - containers
+    - role: srv_cronjobs
+      tags:
+        - srv_cronjobs
     - role: mail_alerts
       tags:
         - mail_alerts

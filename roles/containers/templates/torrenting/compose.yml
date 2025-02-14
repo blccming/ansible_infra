@@ -15,20 +15,22 @@ services:
       # - SERVER_COUNTRIES=Germany,France,Austria
       # - OWNED_ONLY=yes
       - VPN_SERVICE_PROVIDER=custom
-      - OPENVPN_CUSTOM_CONFIG=/glueton/custom.ovpn
-      - OPENVPN_USER={{ OPENVPN_USER }}
-      - OPENVPN_PASSWORD={{ OPENVPN_PASSWORD }}
+      - OPENVPN_CUSTOM_CONFIG=/gluetun/custom.ovpn
+      - OPENVPN_USER={{ openvpn_user }}
+      - OPENVPN_PASSWORD={{ openvpn_password }}
     volumes:
       - "{{ docker_dir }}/gluetun/config/custom.ovpn:/gluetun/custom.ovpn"
     ports:
-      - 9191:9191 # transmission
+      - 9191:9191 # transmission web
+      - 443:443 # transmission bittorrent
+      - 443:443/udp # transmission bittorrent
       - 9696:9696 # prowlarr
     restart: unless-stopped
 
   transmission:
     image: lscr.io/linuxserver/transmission:latest
     container_name: torrenting_transmission
-    network_mode: gluetun
+    network_mode: "service:gluetun"
     environment:
       - PUID=1000
       - PGID=1000
@@ -36,10 +38,6 @@ services:
     volumes:
       - "{{ docker_dir }}/transmission/data:/config"
       - "{{ mergerfs_media_dir }}/downloads:/downloads"
-    ports:
-      - 9191:9191
-      - 51413:51413
-      - 51413:51413/udp
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9091"]
@@ -50,15 +48,13 @@ services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: torrenting_prowlarr
-    network_mode: gluetun
+    network_mode: "service:gluetun"
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
     volumes:
       - "{{ docker_dir }}/prowlarr/data:/config"
-    ports:
-      - 9696:9696
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9696"]
@@ -88,7 +84,7 @@ services:
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
-    container_name: torrenting_ radarr
+    container_name: torrenting_radarr
     environment:
       - PUID=1000
       - PGID=1000

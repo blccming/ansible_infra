@@ -7,6 +7,7 @@ services:
       - piped
     container_name: piped_frontend
     entrypoint: ash -c 'sed -i s/pipedapi.kavin.rocks/pipedapi.{{ domain_local }}/g /usr/share/nginx/html/assets/* && /docker-entrypoint.sh && nginx -g "daemon off;"'
+
   piped-proxy:
     image: 1337kavin/piped-proxy:latest
     restart: unless-stopped
@@ -15,14 +16,16 @@ services:
     volumes:
       - piped-proxy:/app/socket
     container_name: piped-proxy
+
   piped:
     image: 1337kavin/piped:latest
     restart: unless-stopped
     volumes:
-      - "{{ docker_dir }}/piped/config/config.properties:/app/config.properties:ro"
+      - "{{ docker_dir }}/piped/config/config.properties:/app/config.properties"
     depends_on:
       - postgres
     container_name: piped_backend
+
   nginx:
     image: nginx:mainline-alpine
     restart: unless-stopped
@@ -45,6 +48,7 @@ services:
       - "traefik.http.routers.piped.rule=Host(`piped.{{ domain_local }}`, `pipedapi.{{ domain_local }}`, `pipedproxy.{{ domain_local }}`)"
       - "traefik.http.routers.piped.entrypoints=websecure"
       - "traefik.http.services.piped.loadbalancer.server.port=8081"
+
   postgres:
     image: postgres:15
     restart: unless-stopped
@@ -55,16 +59,6 @@ services:
       - POSTGRES_USER=piped
       - POSTGRES_PASSWORD={{ piped_postgres_password }}
     container_name: piped_postgres
-  watchtower:
-    image: containrrr/watchtower
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/timezone:/etc/timezone:ro
-    environment:
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_INCLUDE_RESTARTING=true
-    container_name: piped_watchtower
-    command: piped_frontend piped_backend piped_proxy varnish piped_nginx piped_postgres piped_watchtower
+
 volumes:
   piped-proxy: null

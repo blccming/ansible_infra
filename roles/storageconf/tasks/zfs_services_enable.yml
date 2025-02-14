@@ -1,28 +1,31 @@
 ---
 - name: Enable zfs-load-key service
-  systemd:
-    name: zfs-load-key
-    enabled: true
-    state: started
+  block:
+    - name: Check if zfs-load-key service is masked
+      stat:
+        path: /lib/systemd/system/zfs-load-key.service
+      register: zfs_load_key_service
+
+    - name: Unmask zfs-load-key service
+      command: unlink /lib/systemd/system/zfs-load-key.service
+      when: zfs_load_key_service.stat.exists == true
+      changed_when: true
+
+    - name: Reload systemd daemon
+      command: systemctl daemon-reload
+
+    - name: Enable the service
+      systemd:
+        name: zfs-load-key
+        masked: false
+        state: started
+        enabled: true
 
 - name: Enable zfs-mount service
   systemd:
     name: zfs-mount
     enabled: true
     state: started
-
-- name: Get list of ZFS pools
-  command: zpool list -H -o name
-  register: zfs_pools
-  changed_when: false
-
-- name: Enable zfs-import service for all ZFS pools
-  systemd:
-    name: "zfs-import@{{ item }}"
-    enabled: true
-    state: started
-  loop: "{{ zfs_pools.stdout_lines }}"
-  when: zfs_pools.stdout_lines | length > 0 # Only run if there are pools
 
 - name: Copy ZFS backup script to bin directory
   template:
@@ -40,6 +43,14 @@
     job: "/usr/local/sbin/zfs_backup.sh"
     state: present
 
-- name: Reboot
-  reboot:
-    msg: Rebooting enabling ZFS services
+- name: Reboot if user confirms
+  block:
+    - name: Ask for confirmation before rebooting
+      pause:
+        prompt: "Do you want to reboot the system to enable ZFS services? (y/n)"
+      register: reboot_confirmation
+
+    - name: Reboot the system
+      reboot:
+        msg: "Rebooting to enable ZFS services"
+      when: reboot_confirmation.user_input | lower == 'y'

@@ -20,25 +20,25 @@ services:
 disk_config:
   - {
       name: "naspool",
-      wwn: "nvme-eui.e8238fa6bf530001001b448b47dd3c77",
+      wwn: "eui.e8238fa6bf530001001b448b47dd3c77",
       type: "nvme",
       mountpoint: "/mnt/nas",
     }
   - {
       name: "backuppool",
-      wwn: "wwn-0x5000c500e397dbe1",
+      wwn: "0x5000c500e397dbe1",
       type: "hdd",
       mountpoint: "/mnt/backup",
     }
   - {
       name: "mediacachepool",
-      wwn: "nvme-eui.00000000000000000026b7784e923b55",
+      wwn: "eui.00000000000000000026b7784e923b55",
       type: "nvme",
       mountpoint: "/mnt/media_cache",
     }
   - {
       name: "mediamainpool",
-      wwn: "wwn-0x5000c500f166a1e0",
+      wwn: "0x5000c500f166a1e0",
       type: "hdd",
       mountpoint: "/mnt/media_main",
     }

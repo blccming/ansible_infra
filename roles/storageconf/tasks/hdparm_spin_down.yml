@@ -1,8 +1,13 @@
 ---
+- name: Install hdparm
+  apt:
+    name: hdparm
+    state: present
+
 - name: Copy service file to host
   template:
     src: "{{ role_path }}/templates/hdparm_spin_down.service"
-    dest: /etc/systemd/sytem/hdparm_spin_down.service
+    dest: /etc/systemd/system/hdparm_spin_down.service
     mode: "0644"
 
 - name: Enable service file

@@ -24,9 +24,15 @@
 - name: Copy Piped config files
   template:
     src: "{{ role_path }}/templates/piped/config/{{ item }}"
-    dest: "{{ docker_dir }}/piped/config{{ item }}"
+    dest: "{{ docker_dir }}/piped/config/{{ item }}"
     mode: "0755"
-  with_items: "{{ found_files.files | map(attribute='path') | map('basename') | list }}"
+  loop:
+    - config.properties
+    - nginx.conf
+    - pipedapi.conf
+    - pipedfrontend.conf
+    - pipedproxy.conf
+    - ytproxy.conf
 
 - name: Copy Piped feed update script to bin directory
   template:

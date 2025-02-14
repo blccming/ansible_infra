@@ -12,6 +12,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # monitor other disks / partitions by mounting a folder in /extra-filesystems
       # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
-      {% for disk in disk_config | default([]) %}
+{% for disk in disk_config | default([]) %}
       - "{{ disk.mountpoint }}/.beszel:/extra-filesystems/{{ disk.name }}:ro"
-      {% endfor %}
+{% endfor %}

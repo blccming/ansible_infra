@@ -7,7 +7,7 @@
 - name: Copy service file to host
   template:
     src: "{{ role_path }}/templates/mergerfs_media.service"
-    dest: /etc/systemd/sytem/mergerfs_media.service
+    dest: /etc/systemd/system/mergerfs_media.service
     mode: "0644"
 
 - name: Enable service file

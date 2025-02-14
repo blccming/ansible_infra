@@ -51,6 +51,10 @@ access_control:
       policy: "two_factor"
     - domain: "fin.{{ domain_local }}"
       policy: "two_factor"
+    - domain: "hoas.{{ domain_local }}"
+      policy: "two_factor"
+    - domain: "hrr.{{ domain_local }}"
+      policy: "two_factor"
     - domain: "imch.{{ domain_local }}"
       policy: "two_factor"
     - domain: "sync.{{ domain_local }}"
@@ -73,7 +77,8 @@ access_control:
       policy: "two_factor"
       subject:
         - ['group:admins']
-    # piped, homarr, homeassistant
+
+
 
 identity_providers:
   oidc: # DO NOT CHANGE: the following raw operator has to be placed like this in order for the file to be formatted correctly

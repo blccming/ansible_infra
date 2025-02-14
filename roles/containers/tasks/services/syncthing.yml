@@ -5,6 +5,12 @@
     state: directory
     mode: "0755"
 
+- name: Create Syncthing config directory
+  file:
+    path: "{{ docker_compose_dir }}/syncthing/config"
+    state: directory
+    mode: "0755"
+
 - name: Copy Syncthing compose file
   template:
     src: "{{ role_path }}/templates/syncthing/compose.yml"
@@ -20,3 +26,9 @@
   fail:
     masg: "The directory {{ nas_mount }} does not exist. Make sure the drive is mounted and formatted properly!"
   when: not dir_stat.stat.exists
+
+- name: Create personal directory that will be used for Syncthing
+  file:
+    path: "{{ nas_mount }}/personal"
+    state: directory
+    mode: "0755"

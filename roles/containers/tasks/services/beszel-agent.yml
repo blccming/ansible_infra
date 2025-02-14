@@ -17,4 +17,3 @@
     state: directory
     mode: "0755"
   loop: "{{ disk_config | default([]) }}"
-  when: disk_config is defined and disk config | length > 0

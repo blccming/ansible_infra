@@ -5,6 +5,12 @@
     state: directory
     mode: "0755"
 
+- name: Create personal directory that will be shared with samba
+  file:
+    path: "{{ nas_mount }}/personal"
+    state: directory
+    mode: "0755"
+
 - name: Copy samba compose file
   template:
     src: "{{ role_path }}/templates/samba/compose.yml"
@@ -20,9 +26,3 @@
   fail:
     masg: "The directory {{ nas_mount }} does not exist. Make sure the drive is mounted and formatted properly!"
   when: not dir_stat.stat.exists
-
-- name: Create smb directory
-  file:
-    path: "{{ nas_mount }}/smb"
-    state: directory
-    mode: "0755"

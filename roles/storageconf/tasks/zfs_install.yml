@@ -8,7 +8,6 @@
           deb http://deb.debian.org/debian bookworm-backports main contrib
           deb-src http://deb.debian.org/debian bookworm-backports main contrib
         mode: "0755"
-      notify: Update apt cache
 
     - name: Create ZFS preferences file
       copy:

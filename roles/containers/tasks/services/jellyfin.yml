@@ -3,7 +3,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: "0755"
+    mode: "0777"
   loop:
     - "{{ docker_compose_dir }}/jellyfin"
     - "{{ docker_dir }}/jellyfin/config"

@@ -3,7 +3,7 @@ Description=Set hdparm spin-down time to 2 minutes
 
 [Service]
 Type=oneshot
-ExecStart=/sbin/hdparm -S 120 /dev/sd*
+ExecStart=/bin/bash -c 'for device in /dev/sd*; do if [ -b "$device" ]; then /sbin/hdparm -S 120 "$device"; fi; done'
 User=root
 Group=root
 
