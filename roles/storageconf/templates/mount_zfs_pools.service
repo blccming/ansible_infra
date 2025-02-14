@@ -1,0 +1,13 @@
+[Unit]
+Description=Decrypt and mount ZFS pools
+After=zfs.target
+Requires=zfs.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'zfs load-key -a && zfs mount -a'
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
