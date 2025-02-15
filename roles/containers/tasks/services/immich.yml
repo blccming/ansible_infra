@@ -1,5 +1,5 @@
 ---
-- name: Create Immich directories (compose, db, upload)
+- name: Create Immich directories (compose, db) (read-only)
   file:
     path: "{{ item }}"
     state: directory
@@ -7,7 +7,33 @@
   loop:
     - "{{ docker_compose_dir }}/immich"
     - "{{ docker_dir }}/immich/postgres"
+
+- name: Create Immich directories (upload) (read-write)
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0777"
+  loop:
     - "{{ nas_mount }}/personal/Pictures/Immich"
+    - "{{ nas_mount }}/personal/Pictures/Immich/upload"
+    - "{{ nas_mount }}/personal/Pictures/Immich/library"
+    - "{{ nas_mount }}/personal/Pictures/Immich/thumbs"
+    - "{{ nas_mount }}/personal/Pictures/Immich/encoded-video"
+    - "{{ nas_mount }}/personal/Pictures/Immich/profile"
+    - "{{ nas_mount }}/personal/Pictures/Immich/backups"
+
+- name: Create .immich file in each directory
+  copy:
+    content: ""
+    dest: "{{ item }}/.immich"
+    mode: "0777"
+  loop:
+    - "{{ nas_mount }}/personal/Pictures/Immich/upload"
+    - "{{ nas_mount }}/personal/Pictures/Immich/library"
+    - "{{ nas_mount }}/personal/Pictures/Immich/thumbs"
+    - "{{ nas_mount }}/personal/Pictures/Immich/encoded-video"
+    - "{{ nas_mount }}/personal/Pictures/Immich/profile"
+    - "{{ nas_mount }}/personal/Pictures/Immich/backups"
 
 - name: Copy Immich compose file
   template:
