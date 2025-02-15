@@ -1,14 +1,13 @@
 ---
-- name: Create Nextcloud directories (compose, config, db, data)
+- name: Create Nextcloud directories
   file:
     path: "{{ item }}"
     state: directory
     mode: "0755"
   loop:
     - "{{ docker_compose_dir }}/nextcloud"
-    - "{{ docker_dir }}/nextcloud/config"
-    - "{{ docker_dir }}/nextcloud/db"
-    - "{{ nas_mount }}/apps/nextcloud_data"
+    - "{{ docker_dir }}/nextcloud"
+    - "{{ nas_mount }}/apps"
 
 - name: Copy Nextcloud compose file
   template:

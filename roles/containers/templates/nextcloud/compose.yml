@@ -8,6 +8,7 @@ services:
     ports:
       - 6379:6379/tcp
     network_mode: bridge
+
   db:
     image: mariadb:10.6
     container_name: nextcloud_db
@@ -39,11 +40,10 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_HOST=db
-      - NEXTCLOUD_TRUSTED_DOMAINS=cloud."{{ domain_public }}"
+      - NEXTCLOUD_TRUSTED_DOMAINS="cloud.{{ domain_public }}"
       - OVERWRITEPROTOCOL=https
-      - OVERWRITEHOST=cloud."{{ domain_public }}"
-      - OVERWRITECLIURL=https://cloud."{{ domain_public }}"
-      - TRUSTED_PROXIES=cloud."{{ domain_public }}"
+      - OVERWRITEHOST="cloud.{{ domain_public }}"
+      - OVERWRITECLIURL="https://cloud.{{ domain_public }}"
       - REDIS_HOST_PASSWORD="{{ nextcloud_redis_password }}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
