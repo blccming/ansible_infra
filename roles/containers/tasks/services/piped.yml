@@ -34,16 +34,23 @@
     - pipedproxy.conf
     - ytproxy.conf
 
-- name: Copy Piped feed update script to bin directory
-  template:
-    src: "{{ role_path }}/templates/piped/update_piped_feed.sh"
-    dest: "/home/{{ username }}/bin/update_piped_feed.sh"
-    mode: "0755"
+- name: Install Piped update feed script
+  block:
+    - name: Install curl (prerequisite)
+      apt:
+        name: curl
+        state: present
 
-- name: Create Piped feed cron job
-  cron:
-    name: "Periodically update Piped feed (every 15 minutes)"
-    minute: "*/15"
-    hour: "*"
-    job: "/home/{{ username }}/bin/update_piped_feed.sh"
-    state: present
+    - name: Copy Piped feed update script to bin directory
+      template:
+        src: "{{ role_path }}/templates/piped/update_piped_feed.sh"
+        dest: "/home/{{ username }}/bin/update_piped_feed.sh"
+        mode: "0755"
+
+    - name: Create Piped feed cron job
+      cron:
+        name: "Periodically update Piped feed (every 15 minutes)"
+        minute: "*/15"
+        hour: "*"
+        job: "/home/{{ username }}/bin/update_piped_feed.sh"
+        state: present
