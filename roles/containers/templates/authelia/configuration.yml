@@ -56,7 +56,7 @@ access_control:
     - domain: "hrr.{{ domain_local }}"
       policy: "two_factor"
     - domain: "imch.{{ domain_local }}"
-      policy: "two_factor"
+      policy: "bypass"
     - domain: "sync.{{ domain_local }}"
       policy: "two_factor"
       subject:
@@ -91,11 +91,10 @@ identity_providers:
         client_secret: "{{ authelia_immich_secret_hash }}"
         public: false
         authorization_policy: "two_factor"
-        require_pkce: true
         redirect_uris:
+          - "app.immich:///oauth-callback"
           - "https://imch.{{ domain_local }}/auth/login"
           - "https://imch.{{ domain_local }}/user-settings"
-          - "app.immich:///oauth-callback"
         scopes:
           - "openid"
           - "profile"
