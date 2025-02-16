@@ -51,8 +51,6 @@ access_control:
       policy: "two_factor"
     - domain: "fin.{{ domain_local }}"
       policy: "two_factor"
-    - domain: "hoas.{{ domain_local }}"
-      policy: "two_factor"
     - domain: "hrr.{{ domain_local }}"
       policy: "two_factor"
     - domain: "imch.{{ domain_local }}"
