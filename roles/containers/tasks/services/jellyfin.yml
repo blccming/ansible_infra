@@ -3,11 +3,10 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: "0777"
+    mode: "0755"
   loop:
     - "{{ docker_compose_dir }}/jellyfin"
-    - "{{ docker_dir }}/jellyfin/config"
-    - "{{ docker_dir }}/jellyfin/cache"
+    - "{{ docker_dir }}/jellyfin"
 
 - name: Get getent command output for render group
   command: getent group render

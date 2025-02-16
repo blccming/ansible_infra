@@ -19,6 +19,7 @@ services:
       - OPENVPN_CUSTOM_CONFIG=/gluetun/custom.ovpn
       - OPENVPN_USER={{ openvpn_user }}
       - OPENVPN_PASSWORD={{ openvpn_password }}
+      - FIREWALL_OUTBOUND_SUBNETS="192.168.178.0/24"
     volumes:
       - "{{ docker_dir }}/gluetun/config/custom.ovpn:/gluetun/custom.ovpn"
     ports:
@@ -33,8 +34,8 @@ services:
     container_name: torrenting_transmission
     network_mode: "service:gluetun"
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=0
+      - PGID=0
       - TZ=Europe/Berlin
       - PEERPORT=443
     volumes:
@@ -52,8 +53,8 @@ services:
     container_name: torrenting_prowlarr
     network_mode: "service:gluetun"
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=0
+      - PGID=0
       - TZ=Europe/Berlin
     volumes:
       - "{{ docker_dir }}/prowlarr/data:/config"
@@ -68,12 +69,12 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: torrenting_sonarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=0
+      - PGID=0
       - TZ=Europe/Berlin
     volumes:
       - "{{ docker_dir }}/sonarr/data:/config"
-      - "{{ mergerfs_media_dir }}/shows:/shows" # TODO
+      - "{{ mergerfs_media_dir }}/shows:/shows"
       - "{{ mergerfs_media_dir }}/downloads:/downloads"
     ports:
       - 8989:8989
@@ -88,8 +89,8 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: torrenting_radarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=0
+      - PGID=0
       - TZ=Europe/Berlin
     volumes:
       - "{{ docker_dir }}/radarr/data:/config"
@@ -107,7 +108,7 @@ services:
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr
     container_name: torrenting_recyclarr
-    user: 1000:1000
+    user: 0:0
     volumes:
       - "{{ docker_dir }}/recyclarr/data:/config"
     environment:

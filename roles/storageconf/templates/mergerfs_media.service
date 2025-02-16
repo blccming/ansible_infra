@@ -1,6 +1,7 @@
 [Unit]
 Description=mergerfs /media service
-After=local-fs.target network.target
+After=local-fs.target network.target mount_zfs_pools.service
+Requires=mount_zfs_pools.service
 
 [Service]
 Type=simple
@@ -12,6 +13,7 @@ ExecStart=/usr/bin/mergerfs \
   -o moveonenospc=true \
   -o minfreespace=100G \
   -o dropcacheonclose=false \
+  -o nonempty \
   /mnt/media_cache:/mnt/media_main \
   "{{ mergerfs_media_dir }}"
 ExecStop=/bin/fusermount -uz /media

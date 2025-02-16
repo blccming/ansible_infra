@@ -4,7 +4,7 @@ services:
     image: jellyfin/jellyfin
     container_name: jellyfin
     network_mode: "host"
-    user: 1000:1000
+    user: 0:0
     group_add:
       - "{{ gid_render }}"
     volumes:
