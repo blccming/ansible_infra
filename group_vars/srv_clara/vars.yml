@@ -10,6 +10,7 @@ services:
   - beszel-hub
   - caddy
   - cloudflare-ddns
+  - cryptgeon
   - homarr
   - homeassistant
   - watchtower

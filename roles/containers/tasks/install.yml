@@ -19,6 +19,7 @@
     - services/beszel-hub.yml
     - services/caddy.yml
     - services/cloudflare-ddns.yml
+    - services/cryptgeon.yml
     - services/dashdot.yml
     - services/homarr.yml
     - services/homeassistant.yml

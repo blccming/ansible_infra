@@ -1,0 +1,12 @@
+---
+- name: Create cryptgeon compose directory
+  file:
+    path: "{{ docker_compose_dir }}/cryptgeon"
+    state: directory
+    mode: "0755"
+
+- name: Copy cryptgeon compose file
+  template:
+    src: "{{ role_path }}/templates/cryptgeon/compose.yml"
+    dest: "{{ docker_compose_dir }}/cryptgeon/compose.yml"
+    mode: "0755"

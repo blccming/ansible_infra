@@ -1,0 +1,25 @@
+---
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: cryptgeon_redis
+    # Set a size limit. See link below on how to customise.
+    # https://redis.io/docs/manual/eviction/
+    command: redis-server --maxmemory 1gb --maxmemory-policy allkeys-lru
+
+  app:
+    image: cupcakearmy/cryptgeon:latest
+    container_name: cryptgeon_app
+    depends_on:
+      - redis
+    environment:
+      # Size limit for a single note.
+      SIZE_LIMIT: 64 MiB
+    ports:
+      - 8000:8000
+    healthcheck: # Optional health checks
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:8000/api/live/"]
+      interval: 1m
+      timeout: 3s
+      retries: 2
+      start_period: 5s
