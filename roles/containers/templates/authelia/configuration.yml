@@ -48,7 +48,7 @@ access_control:
     - domain: "crg.{{ domain_public }}"
       policy: "one_factor"
     - domain: "cloud.{{ domain_public }}"
-      policy: "two_factor"
+      policy: "bypass"
     - domain: "fin.{{ domain_local }}"
       policy: "two_factor"
     - domain: "hrr.{{ domain_local }}"

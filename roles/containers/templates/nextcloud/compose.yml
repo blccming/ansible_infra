@@ -17,8 +17,8 @@ services:
     volumes:
       - "{{ docker_dir }}/nextcloud/db:/var/lib/mysql"
     environment:
-      - MYSQL_ROOT_PASSWORD="{{ nextcloud_mysql_root_password }}"
-      - MYSQL_PASSWORD="{{ nextcloud_mysql_password }}"
+      - MYSQL_ROOT_PASSWORD={{ nextcloud_mysql_root_password }}
+      - MYSQL_PASSWORD={{ nextcloud_mysql_password }}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
 
@@ -36,15 +36,15 @@ services:
       - "{{ docker_dir }}/nextcloud/config:/var/www/html"
       - "{{ docker_dir }}/nextcloud/config/php-local.ini:/usr/local/etc/php/php-local.ini"
     environment:
-      - MYSQL_PASSWORD="{{ nextcloud_mysql_password }}"
+      - MYSQL_PASSWORD={{ nextcloud_mysql_password }}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_HOST=db
-      - NEXTCLOUD_TRUSTED_DOMAINS="cloud.{{ domain_public }}"
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.{{ domain_public }}
       - OVERWRITEPROTOCOL=https
-      - OVERWRITEHOST="cloud.{{ domain_public }}"
-      - OVERWRITECLIURL="https://cloud.{{ domain_public }}"
-      - REDIS_HOST_PASSWORD="{{ nextcloud_redis_password }}"
+      - OVERWRITEHOST=cloud.{{ domain_public }}
+      - OVERWRITECLIURL=https://cloud.{{ domain_public }}
+      - REDIS_HOST_PASSWORD={{ nextcloud_redis_password }}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
       interval: 2s
