@@ -19,7 +19,7 @@
     dest: "/usr/local/sbin/zfs_backup.sh"
     owner: root
     group: root
-    mode: "0700"
+    mode: "0770"
 
 - name: Create ZFS backup cron job
   cron:

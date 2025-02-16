@@ -4,14 +4,21 @@
     name: hdparm
     state: present
 
-- name: Copy service file to host
-  template:
-    src: "{{ role_path }}/templates/hdparm_spin_down.service"
-    dest: /etc/systemd/system/hdparm_spin_down.service
-    mode: "0644"
+- name: Modify hdparm.conf
+  block:
+    - name: Create hdparm.conf file
+      file:
+        path: /etc/hdparm.conf
+        state: touch
+        mode: "0644"
 
-- name: Enable service file
-  systemd:
-    name: hdparm_spin_down
-    enabled: true
-    state: started
+    - name: Append to hdparm.conf
+      lineinfile:
+        path: /etc/hdparm.conf
+        line: |
+          /dev/disk/by-id/wwn-{{ item.wwn }} {
+            spindown_time = 25
+          }
+        state: present
+      loop: "{{ disk_config }}"
+      when: item.type == "hdd"
