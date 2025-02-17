@@ -1,4 +1,23 @@
 ---
+- name: Gather disk information
+  command: lsblk -o WWN,NAME -n
+  register: disk_info
+  changed_when: false
+
+- name: Initialize disk mapping
+  set_fact:
+    beszel_disk_mapping: []
+
+- name: Set disk WWNs and device names as facts
+  set_fact:
+    beszel_disk_mapping: "{{ beszel_disk_mapping + [ {'wwn': item[0], 'device': '/dev/' + item[1]} ] }}"
+  loop: "{{ disk_info.stdout_lines | map('split') | list }}"
+  when: item | length == 2 and item[0] not in beszel_disk_mapping | map(attribute='wwn') | list
+
+- name: Remove duplicates based on WWN
+  set_fact:
+    beszel_disk_mapping: "{{ beszel_disk_mapping | unique(attribute='wwn') }}"
+
 - name: Create Beszel Agent compose diretory
   file:
     path: "{{ docker_compose_dir }}/beszel-agent"

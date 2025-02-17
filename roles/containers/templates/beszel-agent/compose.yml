@@ -14,5 +14,5 @@ services:
       # monitor other disks / partitions by mounting a folder in /extra-filesystems
       # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
 {% for disk in disk_config | default([]) %}
-      - "{{ disk.mountpoint }}/.beszel:/extra-filesystems/{{ disk.name }}:ro"
+      - "{{ disk.mountpoint }}/.beszel:/extra-filesystems/{% set device = (beszel_disk_mapping | selectattr('wwn', 'equalto', disk.wwn) | map(attribute='device') | first) %}{{ device | default(disk.name) | basename }}:ro"
 {% endfor %}
