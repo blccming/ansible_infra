@@ -12,13 +12,13 @@
         state: touch
         mode: "0644"
 
-    - name: Append to hdparm.conf
-      lineinfile:
+    - name: Append to hdparm.conf if not already present
+      blockinfile:
         path: /etc/hdparm.conf
-        line: |
+        block: |
           /dev/disk/by-id/wwn-{{ item.wwn }} {
             spindown_time = 25
           }
-        state: present
+        marker: "# {mark} ANSIBLE MANAGED BLOCK for {{ item.name }}"
       loop: "{{ disk_config }}"
       when: item.type == "hdd"

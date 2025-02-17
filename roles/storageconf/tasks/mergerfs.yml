@@ -22,10 +22,18 @@
     dest: "/home/{{ username }}/bin/uncache.py"
     mode: "0755"
 
-- name: Create uncaching cron job
+- name: Create uncaching cron job for shows directory
   cron:
-    name: Perdiodically run uncaching script (every hour)
+    name: Perdiodically run uncaching script for shows directory (every hour)
     minute: "0"
     hour: "*"
-    job: "python3 /home/{{ username }}/bin/uncache.py -s /mnt/media_cache -d /mnt/media_main -t 80"
+    job: "python3 /home/{{ username }}/bin/uncache.py -s /mnt/media_cache/shows -d /mnt/media_main/shows -t 85"
+    state: present
+
+- name: Create uncaching cron job for movies directory
+  cron:
+    name: Perdiodically run uncaching script for movies directory (every hour)
+    minute: "30"
+    hour: "*"
+    job: "python3 /home/{{ username }}/bin/uncache.py -s /mnt/media_cache/movies -d /mnt/media_main/movies -t 75"
     state: present

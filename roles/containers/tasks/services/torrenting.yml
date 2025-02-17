@@ -19,7 +19,6 @@
     mode: "0777"
   loop:
     - "{{ docker_dir }}/transmission/data"
-    - "{{ docker_compose_dir }}/torrenting"
     - "{{ mergerfs_media_dir }}/shows"
     - "{{ mergerfs_media_dir }}/movies"
     - "{{ mergerfs_media_dir }}/downloads/complete"

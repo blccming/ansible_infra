@@ -12,7 +12,7 @@ services:
   - nextcloud
   - piped
   - samba
-  - scp_target
+  - scp-target
   - syncthing
   - torrenting
   - watchtower

@@ -36,7 +36,7 @@
 
 - name: Ask for formatting permission
   pause:
-    prompt: "WARNING: DATA LOSS.\nThe following disks will be formatted with ZFS {{ filtered_disk_config }}.\nIf you want to modify them, change the configuration in group_vars. Proceed? (y/n)"
+    prompt: "WARNING: DATA LOSS.\nThe following disks will be formatted with ZFS:\n{{ filtered_disk_config }}.\nIf you want to modify them, change the configuration in group_vars. Proceed? (y/n)"
   register: allow_formatting_user_input
 
 - name: Change formatting_allowed to true if user input is 'y'
