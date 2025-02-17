@@ -61,20 +61,12 @@ access_control:
         - ['group:admin']
     - domain: "trans.{{ domain_local }}"
       policy: "two_factor"
-      subject:
-        - ['group:admin']
     - domain: "srr.{{ domain_local }}"
       policy: "two_factor"
-      subject:
-        - ['group:admin']
     - domain: "rrr.{{ domain_local }}"
       policy: "two_factor"
-      subject:
-        - ['group:admin']
     - domain: "prr.{{ domain_local }}"
       policy: "two_factor"
-      subject:
-        - ['group:admin']
 
 
 

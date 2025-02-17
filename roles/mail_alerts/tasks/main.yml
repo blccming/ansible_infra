@@ -33,7 +33,7 @@
     - name: Copy zfs watch service file to host
       template:
         src: "{{ role_path }}/templates/zfs_keyfile_watch.service"
-        dest: /etc/systemd/sytem/zfs_keyfile_watch.service
+        dest: /etc/systemd/system/zfs_keyfile_watch.service
         mode: "0644"
 
     - name: Enable zfs watch service file
