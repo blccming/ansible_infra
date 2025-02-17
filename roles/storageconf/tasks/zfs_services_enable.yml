@@ -40,3 +40,25 @@
       reboot:
         msg: "Rebooting to enable ZFS services"
       when: reboot_confirmation.user_input | lower == 'y'
+
+- name: Check if backup dataset exists
+  community.general.zfs_facts:
+    name: backuppool/backuppool_data
+  register: zfs_facts_backuppool
+
+- name: Debug zfs_facts_backuppool
+  debug:
+    var: zfs_facts_backuppool
+
+- name: Run syncoid the first time if backup dataset does not exist
+  command: /usr/local/sbin/zfs_backup.sh
+  when: (zfs_facts_backuppool.ansible_facts.ansible_zfs_datasets | length == 0)
+
+- name: Configure mountpoint for backup dataset
+  community.general.zfs:
+    name: "{{ item.name }}/{{ item.name }}_data"
+    extra_zfs_properties:
+      mountpoint: "{{ item.mountpoint }}"
+    state: present
+  loop: "{{ disk_config }}"
+  when: item.wwn in disk_mapping | map(attribute='wwn') | list and item.name == 'backuppool' # only include backuppool

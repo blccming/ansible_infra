@@ -65,7 +65,7 @@
       when: item.wwn in disk_config | map(attribute='wwn') | list
       changed_when: false
 
-- name: Create ZFS pools (RAID-Z)
+- name: Create ZFS pools
   when: formatting_allowed
   block:
     - name: Create keyfile directory
@@ -116,7 +116,7 @@
           mountpoint: "{{ item.mountpoint }}"
         state: present
       loop: "{{ disk_config }}"
-      when: item.wwn in disk_mapping | map(attribute='wwn') | list
+      when: item.wwn in disk_mapping | map(attribute='wwn') | list and item.name != 'backuppool' # exclude backuppool
 
     - name: Get zpool status
       command: zpool status
