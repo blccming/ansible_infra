@@ -11,12 +11,10 @@ services:
       - USER_PASSWORD_FILE=/secrets/USER_PASSWORD
       - USER_NAME=scp_user
     volumes:
-      - "{{ docker_dir }}/scp_target/config:/config"
-      - "{{ docker_dir }}/scp_target/secrets:/secrets"
-      - "{{ docker_dir }}/scp_target/scripts:/scripts"
-      - "{{ docker_dir }}/scp_target/data:/data"
-    ports:
-      - 2222:2222
+      - "{{ docker_dir }}/scp-target/config:/config"
+      - "{{ docker_dir }}/scp-target/secrets:/secrets"
+      - "{{ docker_dir }}/scp-target/scripts:/scripts"
+      - "{{ docker_dir }}/scp-target/data:/data"
     network_mode: "service:tailscale"
     depends_on:
       - tailscale
@@ -27,7 +25,7 @@ services:
     container_name: scp-target_cron
     network_mode: none
     volumes:
-      - "{{ docker_dir }}/scp_target/data:/data"
+      - "{{ docker_dir }}/scp-target/data:/data"
     environment:
       - "CRON_FREE_UP_SPACE=*/30 * * * * root /scripts/free_up_space.sh"
     restart: unless-stopped
@@ -35,13 +33,13 @@ services:
   tailscale:
     image: tailscale/tailscale:latest
     container_name: scp-target_tailscale
-    hostname: scp_target-{{ hostname }}
+    hostname: scp-target_{{ hostname }}
     environment:
       - TS_AUTHKEY={{ scp_target_ts_auth_key }}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERPSACE=false
     volumes:
-      - "{{ docker_dir }}/scp_target/tailscale/state:/var/lib/tailscale"
+      - "{{ docker_dir }}/scp-target/tailscale/state:/var/lib/tailscale"
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:

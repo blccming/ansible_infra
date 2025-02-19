@@ -1,15 +1,18 @@
-- name: Create scp-target directories (compose, config, data, secrets)
+- name: Create necessary scp-target directories (compose, scripts, secrets)
   file:
     path: "{{ item }}"
     state: directory
     mode: "0755"
   loop:
     - "{{ docker_compose_dir }}/scp-target"
-    - "{{ docker_dir }}/scp-target/config"
-    - "{{ docker_dir }}/scp-target/secrets"
     - "{{ docker_dir }}/scp-target/scripts"
-    - "{{ docker_dir }}/scp-target/data"
-    - "{{ docker_dir }}/scp-target/tailscale/state"
+    - "{{ docker_dir }}/scp-target/secrets"
+
+- name: Create scp-target data directory
+  file:
+    path: "{{ docker_dir }}/scp-target/data"
+    state: directory
+    mode: "0777"
 
 - name: Copy scp-target compose file
   template:
@@ -25,6 +28,6 @@
 
 - name: Create scp-target USER_PASSWORD file
   copy:
-    content: "{{ scp-target_user_password }}"
+    content: "{{ scp_target_user_password }}"
     dest: "{{ docker_dir }}/scp-target/secrets/USER_PASSWORD"
     mode: "0640"

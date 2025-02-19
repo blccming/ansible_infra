@@ -104,12 +104,3 @@ services:
       interval: 2s
       timeout: 60s
       retries: 20
-
-  recyclarr:
-    image: ghcr.io/recyclarr/recyclarr
-    container_name: torrenting_recyclarr
-    user: 0:0
-    volumes:
-      - "{{ docker_dir }}/recyclarr/data:/config"
-    environment:
-      - TZ=Europe/Berlin

@@ -87,6 +87,7 @@
         zpool create
         -o ashift={{ '12' if item.type == 'hdd' else '9' }}
         -o cachefile=/etc/zfs/zpool.cache
+        {{ -o dedup=on if 'cache' in item.name }}
         -O compression=lz4
         -O recordsize={{ '1M' if 'media' in item.name else '128K' }}
         -O acltype=posixacl

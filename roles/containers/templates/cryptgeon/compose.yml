@@ -3,6 +3,7 @@ services:
   redis:
     image: redis:7-alpine
     container_name: cryptgeon_redis
+    restart: unless-stopped
     # Set a size limit. See link below on how to customise.
     # https://redis.io/docs/manual/eviction/
     command: redis-server --maxmemory 1gb --maxmemory-policy allkeys-lru
@@ -10,6 +11,7 @@ services:
   app:
     image: cupcakearmy/cryptgeon:latest
     container_name: cryptgeon_app
+    restart: unless-stopped
     depends_on:
       - redis
     environment:
