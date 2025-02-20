@@ -11,8 +11,8 @@
     line: "{{ item }}"
     state: present
   loop:
-    - "alias spdown='cd ~/Music/tosort && spotdl --format flac --bitrate 9'"
-    - "alias ytdown='cd ~/Music/tosort && yt-dlp -x --audio-format flac'"
+    - "alias spdown='cd /run/user/1000/gvfs/smb-share:server=rosa,share=data/Music/tosort && spotdl --format flac --bitrate 9'"
+    - "alias ytdown='cd /run/user/1000/gvfs/smb-share:server=rosa,share=data/Music/tosort && yt-dlp -x --audio-format flac'"
 
 - name: Install starship.rs
   shell: curl -sS https://starship.rs/install.sh | sh -s -- --force

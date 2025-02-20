@@ -50,7 +50,7 @@ access_control:
     - domain: "cloud.{{ domain_public }}"
       policy: "bypass"
     - domain: "fin.{{ domain_local }}"
-      policy: "two_factor"
+      policy: "bypass"
     - domain: "hrr.{{ domain_local }}"
       policy: "two_factor"
     - domain: "imch.{{ domain_local }}"

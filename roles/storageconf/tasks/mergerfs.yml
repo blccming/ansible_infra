@@ -35,5 +35,5 @@
     name: Perdiodically run uncaching script for movies directory (every hour)
     minute: "30"
     hour: "*"
-    job: "python3 /home/{{ username }}/bin/uncache.py -s /mnt/media_cache/movies -d /mnt/media_main/movies -t 75"
+    job: "python3 /home/{{ username }}/bin/uncache.py -s /mnt/media_cache/movies -d /mnt/media_main/movies -t 83"
     state: present
