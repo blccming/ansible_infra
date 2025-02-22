@@ -1,0 +1,24 @@
+---
+- name: Debloat system
+  include_tasks: debloat.yml
+
+- name: Configure CLI
+  include_tasks: cli.yml
+
+- name: Install Flatpak apps
+  include_tasks: flatpak.yml
+
+- name: Install fonts
+  include_tasks: fonts.yml
+
+- name: Install Mullvad VPN
+  include_tasks: mullvad.yml
+
+- name: Install Syncthing
+  include_tasks: syncthing.yml
+
+- name: Install Virt-Manager
+  include_tasks: virt-manager.yml
+
+- name: Configure GNOME
+  include_tasks: gnome.yml

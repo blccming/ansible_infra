@@ -19,7 +19,7 @@ domain_public: blccm.ing
 domain_local: "lab.{{ domain_public }}"
 
 # package packs (flatpak)
-pkgs_flatpaks_office: &pkgs_flatpaks_office
+pkgs_flatpaks_office:
   - app.zen_browser.zen
   - dev.vencord.Vesktop
   - io.anytype.anytype
@@ -32,40 +32,44 @@ pkgs_flatpaks_office: &pkgs_flatpaks_office
   - org.signal.Signal
   - org.torproject.torbrowser-launcher
 
-pkgs_flatpak_dev: &pkgs_flatpak_dev
+pkgs_flatpak_dev:
   - cc.arduino.IDE2
   - com.emqx.MQTTX
   - com.visualstudio.code-oss
   - dev.zed.Zed
   - org.raspberrypi.rpi-imager
 
-pkg_flatpak_gaming: &pkgs_flatpak_gaming
+pkg_flatpak_gaming:
   - com.usebottles.bottles
   - com.valvesoftware.Steam
   - org.prismlauncher.PrismLauncher
 
-pkgs_flatpak_gnome: &pkgs_flatpak_gnome
+pkgs_flatpak_gnome:
   - com.mattjakeman.ExtensionManager
   - com.raggesilver.BlackBox
   - io.missioncenter.MissionCenter
   - page.tesk.Refine
 
-pkgs_flatpak_media: &pkgs_flatpak_media
+pkgs_flatpak_media:
   - org.gimp.GIMP
   - org.videolan.VLC
   - io.github.josephmawa.Bella
 
-pkgs_flatpak_media_ext: &pkgs_flatpak_media_ext
+pkgs_flatpak_media_ext:
   - com.obsproject.Studio
   - com.transmissionbt.Transmission
   - org.audacityteam.Audacity
   - org.nicotine_plus.Nicotine
 
 # package packs (dnf)
-pkgs_dnf_dev: &pkgs_dnf_dev
+pkgs_dnf_dev:
   - git
   - python3
+  - python3-pip
 
-pkgs_dnf_office: &pkgs_dnf_office
+pkgs_dnf_media:
+  - mpv
+
+pkgs_dnf_office:
   - gnuplot
   - texlive-scheme-full

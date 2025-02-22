@@ -1,36 +1,19 @@
 ---
-- name: Installing gnome extensions
-  block:
-    - name: Download latest zipball from all extensions in list
-      get_url: "https://extensions.gnome.org/extension-data/{{ item }}.zip"
-      dest: "/temp/{{ item }}.zip"
-
-    - name: Using gnome-extensions command to install extension
-      command: "gnome-extensions install /temp/{{ item }}.zip"
-      changed_when: false
-  loop:
-    - dash-to-paneljderose9.github.com.v65.shell-extension
-    - dingrastersoft.com.v73.shell-extension
-    - appindicatorsupportrgcjonas.gmail.com.v59.shell-extension
-    - just-perfection-desktopjust-perfection.v34.shell-extension
-    - VitalsCoreCoding.com.v70.shell-extension
-    - tilingshellferrarodomenico.com.v48.shell-extension
-
 - name: Ensure ~/.local/share/icons exists
   file:
     path: "/home/{{ username }}/.local/share/icons"
     state: directory
     mode: "0775"
-    user: "{{ username }}"
+    owner: "{{ username }}"
     group: "{{ username }}"
 
 - name: Install cursor (bibata)
   block:
     - name: Enable the dnf copr repository
-      dnf:
+      community.general.copr:
         name: peterwu/rendezvous
-        state: present
-        enable: yes
+        state: enabled
+
     - name: Install cursor via dnf
       dnf:
         name: bibata-cursor-themes
@@ -39,10 +22,9 @@
 - name: Install icon pack (morewaita)
   block:
     - name: Enable the dnf copr repository
-      dnf:
+      community.general.copr:
         name: dusansimic/themes
-        state: present
-        enable: yes
+
     - name: Install icon theme via dnf
       dnf:
         name: morewaita-icon-theme

@@ -6,9 +6,11 @@
 
 - name: Create autostart directory
   file:
-    path: ~/.config/autostart
+    path: /home/{{ username }}/.config/autostart
     state: directory
-    mode: "0755"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
 
 - name: Copy syncthing-start.desktop to autostart
   copy:

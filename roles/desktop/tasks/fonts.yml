@@ -14,25 +14,20 @@
       dnf:
         name: "https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm"
         state: present
+        disable_gpg_check: true
 
 - name: Install Jetbrains Mono Nerd Font
   block:
-    - name: Download .tff
-      get_url:
-        url: "https://github.com/ryanoasis/nerd-fonts/raw/refs/heads/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFontMono-Regular.ttf"
-        dest: "/tmp/JetBrainsMonoNerdFontMono-Regular.ttf"
-
     - name: Create font directory
       file:
         path: "/usr/share/fonts/truetype/JetBrainsMono"
         state: directory
         mode: "0755"
 
-    - name: Copy .tff to directory
-      copy:
-        src: "/tmp/JetBrainsMonoNerdFontMono-Regular.ttf"
+    - name: Download .tff
+      get_url:
+        url: "https://github.com/ryanoasis/nerd-fonts/raw/refs/heads/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFontMono-Regular.ttf"
         dest: "/usr/share/fonts/truetype/JetBrainsMono/JetBrainsMonoNerdFontMono-Regular.ttf"
-        mode: "0644"
 
     - name: Update font cache
       command: fc-cache -f -v

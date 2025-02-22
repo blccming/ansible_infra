@@ -1,0 +1,9 @@
+---
+- name: Enable Mullvad VPN repository
+  command: dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo --overwrite
+
+- name: Install Mullvad VPN package
+  dnf:
+    name: mullvad-vpn
+    update_cache: true
+    state: present

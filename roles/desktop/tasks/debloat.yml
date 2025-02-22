@@ -2,16 +2,19 @@
 - name: Debloating (uninstalling unused apps)
   dnf:
     name:
+      - kdump-anaconda-addon
       - anaconda
       - gnome-contacts
       - gnome-maps
       - gnome-system-monitor
-      - gnome-terminal
       - gnome-tour
-      - libreoffice-core
+      - libreoffice-*
+      - libreoffice
       - mediawriter
-      - rythmbox
+      - ptyxis
+      - rhythmbox
       - totem
       - unoconv
       - yelp
     state: absent
+    autoremove: true
