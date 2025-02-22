@@ -56,9 +56,7 @@ access_control:
     - domain: "imch.{{ domain_local }}"
       policy: "bypass"
     - domain: "sync.{{ domain_local }}"
-      policy: "two_factor"
-      subject:
-        - ['group:admin']
+      policy: "bypass"
     - domain: "trans.{{ domain_local }}"
       policy: "two_factor"
     - domain: "srr.{{ domain_local }}"

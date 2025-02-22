@@ -7,7 +7,7 @@
   loop:
     - "{{ docker_compose_dir }}/immich"
     - "{{ docker_dir }}/immich/postgres"
-    - "{{ nas_mount }}/personal/Pictures"
+    - "{{ nas_mount }}/apps/immich"
 
 - name: Copy Immich compose file
   template:

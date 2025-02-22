@@ -1,29 +1,29 @@
 ---
-# - name: "Deployment: clara; server; raspberry pi; raspbian"
-#   hosts: srv_clara
-#   become: true
-#   roles:
-#     - role: mail_alerts_disable
-#       tags:
-#         - mail_alerts_disable
-#     - role: system
-#       tags:
-#         - system
-#     - role: geerlingguy.security
-#       tags:
-#         - security
-#     - role: geerlingguy.docker
-#       tags:
-#         - docker
-#     - role: containers
-#       tags:
-#         - containers
-#     - role: srv_cronjobs
-#       tags:
-#         - srv_cronjobs
-#     - role: mail_alerts
-#       tags:
-#         - mail_alerts
+- name: "Deployment: clara; server; raspberry pi; raspbian"
+  hosts: srv_clara
+  become: true
+  roles:
+    - role: mail_alerts_disable
+      tags:
+        - mail_alerts_disable
+    - role: system
+      tags:
+        - system
+    - role: geerlingguy.security
+      tags:
+        - security
+    - role: geerlingguy.docker
+      tags:
+        - docker
+    - role: containers
+      tags:
+        - containers
+    - role: srv_cronjobs
+      tags:
+        - srv_cronjobs
+    - role: mail_alerts
+      tags:
+        - mail_alerts
 
 - name: "Deployment: rosa; server; x86_64; debian"
   hosts: srv_rosa

@@ -29,6 +29,6 @@
 
 - name: Create personal directory that will be used for Syncthing
   file:
-    path: "{{ nas_mount }}/personal/Synced"
+    path: "{{ nas_mount }}/apps/Syncthing"
     state: directory
-    mode: "0755"
+    mode: "0777"
