@@ -61,9 +61,9 @@
     - role: system
       tags:
         - system
-    - role: desktop_suite
+    - role: desktop
       tags:
-        - desktop_suite
+        - desktop
     - role: geerlingguy.docker
       tags:
         - docker
