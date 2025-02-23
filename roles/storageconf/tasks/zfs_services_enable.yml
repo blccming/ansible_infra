@@ -23,9 +23,9 @@
 
 - name: Create ZFS backup cron job
   cron:
-    name: "Periodically backup zfs nas pool to backup pool (every day at 11:00)"
+    name: "Periodically backup zfs nas pool to backup pool (every day at 15:00)"
     minute: "0"
-    hour: "11"
+    hour: "15"
     job: "/usr/local/sbin/zfs_backup.sh"
     state: present
 
