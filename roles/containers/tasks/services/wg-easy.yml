@@ -1,0 +1,15 @@
+---
+- name: Create necessary wg-easy directories (compose, config)
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ docker_compose_dir }}/wg-easy"
+    - "{{ docker_dir }}/wg-easy"
+
+- name: Copy wg-easy compose file
+  template:
+    src: "{{ role_path }}/templates/wg-easy/compose.yml"
+    dest: "{{ docker_compose_dir }}/wg-easy/compose.yml"
+    mode: "0755"

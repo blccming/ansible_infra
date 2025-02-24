@@ -1,3 +1,4 @@
+---
 - name: Create necessary scp-target directories (compose, scripts, secrets)
   file:
     path: "{{ item }}"

@@ -249,6 +249,10 @@ dash.{{ domain_local }} { # beszel
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}
+	forward_auth localhost:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+    }
 }
 
 hrr.{{ domain_local }} {
@@ -273,6 +277,13 @@ hoas.{{ domain_local }} {
 
 lldap.{{ domain_local }} {
 	reverse_proxy 192.168.178.20:17170
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+}
+
+wg.{{ domain_local }} {
+    reverse_proxy 192.168.178.20:51821
 	tls {
 		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
 	}

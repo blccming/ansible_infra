@@ -15,6 +15,10 @@
           "proxied": false
         },
         {
+          "name": "wg",
+          "proxied": false
+        },
+        {
           "name": "auth",
           "proxied": true
         },

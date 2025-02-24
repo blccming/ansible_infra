@@ -49,6 +49,8 @@ access_control:
       policy: "one_factor"
     - domain: "cloud.{{ domain_public }}"
       policy: "bypass"
+    - domain: "dash.{{ domain_local }}"
+      policy: "bypass"
     - domain: "fin.{{ domain_local }}"
       policy: "bypass"
     - domain: "hrr.{{ domain_local }}"
@@ -118,6 +120,19 @@ identity_providers:
           - "groups"
         userinfo_signed_response_alg: "none"
         token_endpoint_auth_method: "client_secret_post"
+      - client_id: "{{ authelia_pocketbase_cid }}" # pocketbase
+        client_name: "PocketBase"
+        client_secret: "{{ authelia_pocketbase_secret_hash }}"  # The digest of 'insecure_secret'.
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - 'https://dash.{{ domain_local }}/api/oauth2-redirect'
+        scopes:
+          - 'email'
+          - 'groups'
+          - 'openid'
+          - 'profile'
+        userinfo_signed_response_alg: 'none'
 
 regulation:
   max_retries: 5
