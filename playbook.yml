@@ -81,11 +81,3 @@
     - role: geerlingguy.docker
       tags:
         - docker
-
-- name: "Deployment: test host; local vm"
-  hosts: test_host
-  become: true
-  roles:
-    - role: storageconf
-      tags:
-        - storageconf

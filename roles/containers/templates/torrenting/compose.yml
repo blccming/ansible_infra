@@ -65,6 +65,17 @@ services:
       timeout: 60s
       retries: 20
 
+  flaresolverr: # reachable via localhost:8191
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: torrenting_flaresolverr
+    network_mode: "service:gluetun"
+    environment:
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+      - TZ=Europe/Berlin
+    restart: unless-stopped
+
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: torrenting_sonarr
