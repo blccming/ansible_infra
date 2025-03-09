@@ -40,7 +40,7 @@ services:
       - PEERPORT=443
     volumes:
       - "{{ docker_dir }}/transmission/data:/config"
-      - "{{ mergerfs_media_dir }}/downloads:/downloads"
+      - "/mnt/media_cache/downloads:/downloads"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9091"]
