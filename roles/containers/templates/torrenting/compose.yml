@@ -15,17 +15,16 @@ services:
       # - SERVER_COUNTRIES=Germany,France,Austria
       # - OWNED_ONLY=yes
       - VPN_SERVICE_PROVIDER=custom
-      - VPN_TYPE=openvpn
-      - OPENVPN_CUSTOM_CONFIG=/gluetun/custom.ovpn
-      - OPENVPN_USER={{ openvpn_user }}
-      - OPENVPN_PASSWORD={{ openvpn_password }}
+      - VPN_TYPE=wireguard
+      - WIREGUARD_ENDPOINT_IP={{ wg_endpoint_ip }}
+      - WIREGUARD_ENDPOINT_PORT={{ wg_endpoint_port }}
+      - WIREGUARD_PUBLIC_KEY={{ wg_public_key }}
+      - WIREGUARD_PRIVATE_KEY={{ wg_private_key }}
+      - WIREGUARD_ADDRESSES={{ wg_addresses }}
       - FIREWALL_OUTBOUND_SUBNETS="192.168.178.0/24"
-    volumes:
-      - "{{ docker_dir }}/gluetun/config/custom.ovpn:/gluetun/custom.ovpn"
+      - FIREWALL_VPN_INPUT_PORTS=54188
     ports:
       - 9191:9091 # transmission web
-      - 443:443 # transmission bittorrent
-      - 443:443/udp # transmission bittorrent
       - 9696:9696 # prowlarr
     restart: unless-stopped
 
@@ -37,7 +36,7 @@ services:
       - PUID=0
       - PGID=0
       - TZ=Europe/Berlin
-      - PEERPORT=443
+      - PEERPORT=54188
     volumes:
       - "{{ docker_dir }}/transmission/data:/config"
       - "/mnt/media_cache/downloads:/downloads"

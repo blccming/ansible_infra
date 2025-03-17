@@ -2,5 +2,4 @@
 .vault_pass
 geerlingguy.docker
 geerlingguy.security
-roles/containers/templates/torrenting/custom.ovpn
 roles/containers/templates/authelia/rsa.2048.key
