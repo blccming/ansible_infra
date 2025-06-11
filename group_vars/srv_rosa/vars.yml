@@ -10,6 +10,7 @@ services:
   - immich
   - jellyfin
   - nextcloud
+  - paperless
   - piped
   - samba
   - scp-target

@@ -1,0 +1,22 @@
+---
+- name: Create Paperless directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ docker_compose_dir }}/paperless"
+    - "{{ docker_dir }}/paperless"
+    - "{{ nas_mount }}/apps"
+
+- name: Copy Paperless compose file
+  template:
+    src: "{{ role_path }}/templates/paperless/compose.yml"
+    dest: "{{ docker_compose_dir }}/paperless/compose.yml"
+    mode: "0755"
+
+- name: Copy Paperless docker-compose env file
+  template:
+    src: "{{ role_path }}/templates/paperless/docker-compose.env"
+    dest: "{{ docker_compose_dir }}/paperless/docker-compose.env"
+    mode: "0755"

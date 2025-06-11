@@ -213,6 +213,23 @@ prr.{{ domain_local }} {
 	}
 }
 
+ppl.{{ domain_local }} {
+	reverse_proxy 192.168.178.24:8010
+	encode gzip
+	tls {
+		dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+	}
+	handle_errors {
+		@502 expression {err.status_code} == 502
+		handle @502 {
+			wake_on_lan 88:88:88:88:87:88 # 192.168.178.24:9
+			reverse_proxy 192.168.178.24:8010 {
+				lb_try_duration 60s
+			}
+		}
+	}
+}
+
 piped.{{ domain_local }}, pipedapi.{{ domain_local }}, pipedproxy.{{ domain_local }} {
 	uri replace "&ump=1" ""
 	reverse_proxy 192.168.178.24:8081

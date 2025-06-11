@@ -120,6 +120,22 @@ identity_providers:
           - "groups"
         userinfo_signed_response_alg: "none"
         token_endpoint_auth_method: "client_secret_post"
+      - client_id: "{{ authelia_paperless_cid }}" # paperless
+        client_name: "Paperless"
+        client_secret: "{{ authelia_paperless_secret_hash }}"
+        public: false
+        authorization_policy: 'two_factor'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://ppl.{{ domain_local }}/accounts/oidc/authelia/login/callback/'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
       - client_id: "{{ authelia_pocketbase_cid }}" # pocketbase
         client_name: "PocketBase"
         client_secret: "{{ authelia_pocketbase_secret_hash }}"  # The digest of 'insecure_secret'.

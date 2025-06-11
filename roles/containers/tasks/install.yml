@@ -26,6 +26,7 @@
     - services/immich.yml
     - services/jellyfin.yml
     - services/nextcloud.yml
+    - services/paperless.yml
     - services/piped.yml
     - services/samba.yml
     - services/scp-target.yml
